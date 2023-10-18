@@ -111,11 +111,7 @@ if (!empty($_POST["save"])) {
 	unset($mktemp_output);
 
 	// Save changes
-	exec(
-		HESTIA_CMD . "v-update-user-backup-exclusions " . $user . " " . $tmp,
-		$output,
-		$return_var,
-	);
+	exec("v-update-user-backup-exclusions " . $user . " " . $tmp, $output, $return_var);
 	check_return_code($return_var, $output);
 	unset($output);
 

@@ -71,14 +71,7 @@ if (!empty($_POST["ok"])) {
 	// Add web domain
 	if (empty($_SESSION["error_msg"])) {
 		exec(
-			HESTIA_CMD .
-				"v-add-web-domain " .
-				$user .
-				" " .
-				quoteshellarg($v_domain) .
-				" " .
-				$v_ip .
-				" 'yes'",
+			"v-add-web-domain " . $user . " " . quoteshellarg($v_domain) . " " . $v_ip . " 'yes'",
 			$output,
 			$return_var,
 		);
@@ -96,8 +89,7 @@ if (!empty($_POST["ok"])) {
 	// Add DNS domain
 	if ($_POST["v_dns"] == "on" && empty($_SESSION["error_msg"])) {
 		exec(
-			HESTIA_CMD .
-				"v-add-dns-domain " .
+			"v-add-dns-domain " .
 				$user .
 				" " .
 				quoteshellarg($v_domain) .
@@ -113,11 +105,7 @@ if (!empty($_POST["ok"])) {
 
 	// Add mail domain
 	if ($_POST["v_mail"] == "on" && empty($_SESSION["error_msg"])) {
-		exec(
-			HESTIA_CMD . "v-add-mail-domain " . $user . " " . quoteshellarg($v_domain),
-			$output,
-			$return_var,
-		);
+		exec("v-add-mail-domain " . $user . " " . quoteshellarg($v_domain), $output, $return_var);
 		check_return_code($return_var, $output);
 		unset($output);
 	}

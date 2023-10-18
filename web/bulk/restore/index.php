@@ -48,8 +48,7 @@ if (!empty($_POST["udir"])) {
 
 if ($action == "restore") {
 	exec(
-		HESTIA_CMD .
-			"v-schedule-user-restore " .
+		"v-schedule-user-restore " .
 			$user .
 			" " .
 			$backup .

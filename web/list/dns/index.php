@@ -20,12 +20,7 @@ if (empty($_GET["domain"])) {
 	render_page($user, $TAB, "list_dns");
 } elseif (!empty($_GET["action"])) {
 	exec(
-		HESTIA_CMD .
-			"v-list-dnssec-public-key " .
-			$user .
-			" " .
-			quoteshellarg($_GET["domain"]) .
-			" 'json'",
+		"v-list-dnssec-public-key " . $user . " " . quoteshellarg($_GET["domain"]) . " 'json'",
 		$output,
 		$return_var,
 	);
@@ -84,12 +79,7 @@ if (empty($_GET["domain"])) {
 	render_page($user, $TAB, "list_dns_public");
 } else {
 	exec(
-		HESTIA_CMD .
-			"v-list-dns-records " .
-			$user .
-			" " .
-			quoteshellarg($_GET["domain"]) .
-			" 'json'",
+		"v-list-dns-records " . $user . " " . quoteshellarg($_GET["domain"]) . " 'json'",
 		$output,
 		$return_var,
 	);

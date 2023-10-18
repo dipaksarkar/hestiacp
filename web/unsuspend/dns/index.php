@@ -34,7 +34,7 @@ if (!empty($_GET["domain"]) && !empty($_GET["record_id"])) {
 	$v_domain = quoteshellarg($_GET["domain"]);
 	$v_record_id = quoteshellarg($_GET["record_id"]);
 	exec(
-		HESTIA_CMD . "v-unsuspend-dns-record " . $user . " " . $v_domain . " " . $v_record_id,
+		"v-unsuspend-dns-record " . $user . " " . $v_domain . " " . $v_record_id,
 		$output,
 		$return_var,
 	);

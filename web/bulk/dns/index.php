@@ -99,11 +99,7 @@ if (empty($_POST["record"])) {
 		// DNS Record
 		$value = quoteshellarg($value);
 		$dom = quoteshellarg($domain);
-		exec(
-			HESTIA_CMD . $cmd . " " . $user . " " . $dom . " " . $value . " no",
-			$output,
-			$return_var,
-		);
+		exec($cmd . " " . $user . " " . $dom . " " . $value . " no", $output, $return_var);
 		$restart = "yes";
 	}
 }

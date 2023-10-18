@@ -11,11 +11,7 @@ $backup = $_GET["backup"];
 
 if (!file_exists("/backup/" . $backup)) {
 	$backup = quoteshellarg($_GET["backup"]);
-	exec(
-		HESTIA_CMD . "v-schedule-user-backup-download " . $user . " " . $backup,
-		$output,
-		$return_var,
-	);
+	exec("v-schedule-user-backup-download " . $user . " " . $backup, $output, $return_var);
 	if ($return_var == 0) {
 		$_SESSION["error_msg"] = _("Download of remote backup file has been scheduled.");
 	} else {

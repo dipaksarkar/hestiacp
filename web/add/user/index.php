@@ -72,8 +72,7 @@ if (!empty($_POST["ok"])) {
 		fwrite($fp, $_POST["v_password"] . "\n");
 		fclose($fp);
 		exec(
-			HESTIA_CMD .
-				"v-add-user " .
+			"v-add-user " .
 				$v_username .
 				" " .
 				$v_password .
@@ -94,11 +93,7 @@ if (!empty($_POST["ok"])) {
 
 	// Set language
 	if (empty($_SESSION["error_msg"])) {
-		exec(
-			HESTIA_CMD . "v-change-user-language " . $v_username . " " . $v_language,
-			$output,
-			$return_var,
-		);
+		exec("v-change-user-language " . $v_username . " " . $v_language, $output, $return_var);
 		check_return_code($return_var, $output);
 		unset($output);
 	}
@@ -106,11 +101,7 @@ if (!empty($_POST["ok"])) {
 	// Set Role
 	if (empty($_SESSION["error_msg"])) {
 		$v_role = quoteshellarg($_POST["v_role"]);
-		exec(
-			HESTIA_CMD . "v-change-user-role " . $v_username . " " . $v_role,
-			$output,
-			$return_var,
-		);
+		exec("v-change-user-role " . $v_username . " " . $v_role, $output, $return_var);
 		check_return_code($return_var, $output);
 		unset($output);
 	}
@@ -120,8 +111,7 @@ if (!empty($_POST["ok"])) {
 		if (!empty($_POST["v_login_disabled"])) {
 			$_POST["v_login_disabled"] = "yes";
 			exec(
-				HESTIA_CMD .
-					"v-change-user-config-value " .
+				"v-change-user-config-value " .
 					$v_username .
 					" LOGIN_DISABLED " .
 					quoteshellarg($_POST["v_login_disabled"]),

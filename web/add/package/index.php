@@ -183,11 +183,7 @@ if (!empty($_POST["ok"])) {
 			$tmpfile = tempnam("/tmp/", "hst_");
 			$fp = fopen($tmpfile, "w");
 			fwrite($fp, $pkg);
-			exec(
-				HESTIA_CMD . "v-add-user-package " . $tmpfile . " " . $v_package,
-				$output,
-				$return_var,
-			);
+			exec("v-add-user-package " . $tmpfile . " " . $v_package, $output, $return_var);
 			check_return_code($return_var, $output);
 			unset($output);
 

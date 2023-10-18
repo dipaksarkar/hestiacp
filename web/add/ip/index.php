@@ -62,8 +62,7 @@ if (!empty($_POST["ok"])) {
 	// Add IP
 	if (empty($_SESSION["error_msg"])) {
 		exec(
-			HESTIA_CMD .
-				"v-add-sys-ip " .
+			"v-add-sys-ip " .
 				$v_ip .
 				" " .
 				$v_netmask .

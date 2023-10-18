@@ -27,11 +27,7 @@ $user_domains = array_keys($user_domains);
 unset($output);
 
 $v_domain = $_GET["domain"];
-exec(
-	HESTIA_CMD . "v-list-web-domain " . $user . " " . quoteshellarg($v_domain) . " json",
-	$output,
-	$return_var,
-);
+exec("v-list-web-domain " . $user . " " . quoteshellarg($v_domain) . " json", $output, $return_var);
 # Check if domain exists if not return /list/web/
 check_return_code_redirect($return_var, $output, "/list/web/");
 $data = json_decode(implode("", $output), true);
@@ -46,7 +42,7 @@ $valiases = explode(",", $data[$v_domain]["ALIAS"]);
 $v_ssl = $data[$v_domain]["SSL"];
 if (!empty($v_ssl)) {
 	exec(
-		HESTIA_CMD . "v-list-web-domain-ssl " . $user . " " . quoteshellarg($v_domain) . " json",
+		"v-list-web-domain-ssl " . $user . " " . quoteshellarg($v_domain) . " json",
 		$output,
 		$return_var,
 	);
@@ -202,8 +198,7 @@ if (!empty($_POST["save"])) {
 
 	if ($v_ip != $_POST["v_ip"] && empty($_SESSION["error_msg"])) {
 		exec(
-			HESTIA_CMD .
-				"v-change-web-domain-ip " .
+			"v-change-web-domain-ip " .
 				$user .
 				" " .
 				quoteshellarg($v_domain) .
@@ -222,15 +217,14 @@ if (!empty($_POST["save"])) {
 	// Change dns domain IP
 	if ($v_ip != $_POST["v_ip"] && empty($_SESSION["error_msg"])) {
 		exec(
-			HESTIA_CMD . "v-list-dns-domain " . $user . " " . quoteshellarg($v_domain) . " json",
+			"v-list-dns-domain " . $user . " " . quoteshellarg($v_domain) . " json",
 			$output,
 			$return_var,
 		);
 		unset($output);
 		if ($return_var == 0) {
 			exec(
-				HESTIA_CMD .
-					"v-change-dns-domain-ip " .
+				"v-change-dns-domain-ip " .
 					$user .
 					" " .
 					quoteshellarg($v_domain) .
@@ -250,15 +244,14 @@ if (!empty($_POST["save"])) {
 	if ($v_ip != $_POST["v_ip"] && empty($_SESSION["error_msg"])) {
 		foreach ($valiases as $v_alias) {
 			exec(
-				HESTIA_CMD . "v-list-dns-domain " . $user . " " . quoteshellarg($v_alias) . " json",
+				"v-list-dns-domain " . $user . " " . quoteshellarg($v_alias) . " json",
 				$output,
 				$return_var,
 			);
 			unset($output);
 			if ($return_var == 0) {
 				exec(
-					HESTIA_CMD .
-						"v-change-dns-domain-ip " .
+					"v-change-dns-domain-ip " .
 						$user .
 						" " .
 						quoteshellarg($v_alias) .
@@ -277,14 +270,14 @@ if (!empty($_POST["save"])) {
 	// Change mail domain IP
 	if ($v_ip != $_POST["v_ip"] && empty($_SESSION["error_msg"])) {
 		exec(
-			HESTIA_CMD . "v-list-mail-domain " . $user . " " . quoteshellarg($v_domain) . " json",
+			"v-list-mail-domain " . $user . " " . quoteshellarg($v_domain) . " json",
 			$output,
 			$return_var,
 		);
 		unset($output);
 		if ($return_var == 0) {
 			exec(
-				HESTIA_CMD . "v-rebuild-mail-domain " . $user . " " . quoteshellarg($v_domain),
+				"v-rebuild-mail-domain " . $user . " " . quoteshellarg($v_domain),
 				$output,
 				$return_var,
 			);
@@ -301,8 +294,7 @@ if (!empty($_POST["save"])) {
 		// Change template
 		if ($v_template != $_POST["v_template"] && empty($_SESSION["error_msg"])) {
 			exec(
-				HESTIA_CMD .
-					"v-change-web-domain-tpl " .
+				"v-change-web-domain-tpl " .
 					$user .
 					" " .
 					quoteshellarg($v_domain) .
@@ -325,8 +317,7 @@ if (!empty($_POST["save"])) {
 		) {
 			$v_backend_template = $_POST["v_backend_template"];
 			exec(
-				HESTIA_CMD .
-					"v-change-web-domain-backend-tpl " .
+				"v-change-web-domain-backend-tpl " .
 					$user .
 					" " .
 					quoteshellarg($v_domain) .
@@ -358,8 +349,7 @@ if (!empty($_POST["save"])) {
 					$_POST["v_nginx_cache_duration"] = "2m";
 				}
 				exec(
-					HESTIA_CMD .
-						"v-add-fastcgi-cache " .
+					"v-add-fastcgi-cache " .
 						$user .
 						" " .
 						quoteshellarg($v_domain) .
@@ -372,7 +362,7 @@ if (!empty($_POST["save"])) {
 				unset($output);
 			} else {
 				exec(
-					HESTIA_CMD . "v-delete-fastcgi-cache " . $user . " " . quoteshellarg($v_domain),
+					"v-delete-fastcgi-cache " . $user . " " . quoteshellarg($v_domain),
 					$output,
 					$return_var,
 				);
@@ -390,12 +380,7 @@ if (!empty($_POST["save"])) {
 			empty($_SESSION["error_msg"])
 		) {
 			exec(
-				HESTIA_CMD .
-					"v-delete-web-domain-proxy " .
-					$user .
-					" " .
-					quoteshellarg($v_domain) .
-					" 'no'",
+				"v-delete-web-domain-proxy " . $user . " " . quoteshellarg($v_domain) . " 'no'",
 				$output,
 				$return_var,
 			);
@@ -423,8 +408,7 @@ if (!empty($_POST["save"])) {
 					$v_proxy_template = $_POST["v_proxy_template"];
 				}
 				exec(
-					HESTIA_CMD .
-						"v-change-web-domain-proxy-tpl " .
+					"v-change-web-domain-proxy-tpl " .
 						$user .
 						" " .
 						quoteshellarg($v_domain) .
@@ -460,8 +444,7 @@ if (!empty($_POST["save"])) {
 				$v_proxy_ext = str_replace(",", ", ", $ext);
 			}
 			exec(
-				HESTIA_CMD .
-					"v-add-web-domain-proxy " .
+				"v-add-web-domain-proxy " .
 					$user .
 					" " .
 					quoteshellarg($v_domain) .
@@ -492,8 +475,7 @@ if (!empty($_POST["save"])) {
 				$restart_web = "yes";
 				$restart_proxy = "yes";
 				exec(
-					HESTIA_CMD .
-						"v-delete-web-domain-alias " .
+					"v-delete-web-domain-alias " .
 						$user .
 						" " .
 						quoteshellarg($v_domain) .
@@ -508,15 +490,14 @@ if (!empty($_POST["save"])) {
 
 				if (empty($_SESSION["error_msg"])) {
 					exec(
-						HESTIA_CMD . "v-list-dns-domain " . $user . " " . quoteshellarg($v_domain),
+						"v-list-dns-domain " . $user . " " . quoteshellarg($v_domain),
 						$output,
 						$return_var,
 					);
 					unset($output);
 					if ($return_var == 0) {
 						exec(
-							HESTIA_CMD .
-								"v-delete-dns-on-web-alias " .
+							"v-delete-dns-on-web-alias " .
 								$user .
 								" " .
 								quoteshellarg($v_domain) .
@@ -540,8 +521,7 @@ if (!empty($_POST["save"])) {
 				$restart_web = "yes";
 				$restart_proxy = "yes";
 				exec(
-					HESTIA_CMD .
-						"v-add-web-domain-alias " .
+					"v-add-web-domain-alias " .
 						$user .
 						" " .
 						quoteshellarg($v_domain) .
@@ -555,15 +535,14 @@ if (!empty($_POST["save"])) {
 				unset($output);
 				if (empty($_SESSION["error_msg"])) {
 					exec(
-						HESTIA_CMD . "v-list-dns-domain " . $user . " " . quoteshellarg($v_domain),
+						"v-list-dns-domain " . $user . " " . quoteshellarg($v_domain),
 						$output,
 						$return_var,
 					);
 					unset($output);
 					if ($return_var == 0) {
 						exec(
-							HESTIA_CMD .
-								"v-add-dns-on-web-alias " .
+							"v-add-dns-on-web-alias " .
 								$user .
 								" " .
 								quoteshellarg($alias) .
@@ -593,8 +572,7 @@ if (!empty($_POST["save"])) {
 				// Add certificate with new aliases
 				$l_aliases = str_replace("\n", ",", $v_aliases);
 				exec(
-					HESTIA_CMD .
-						"v-add-letsencrypt-domain " .
+					"v-add-letsencrypt-domain " .
 						$user .
 						" " .
 						quoteshellarg($v_domain) .
@@ -612,12 +590,7 @@ if (!empty($_POST["save"])) {
 				$restart_proxy = "yes";
 
 				exec(
-					HESTIA_CMD .
-						"v-list-web-domain-ssl " .
-						$user .
-						" " .
-						quoteshellarg($v_domain) .
-						" json",
+					"v-list-web-domain-ssl " . $user . " " . quoteshellarg($v_domain) . " json",
 					$output,
 					$return_var,
 				);
@@ -640,8 +613,7 @@ if (!empty($_POST["save"])) {
 			// Update statistics configuration when changing domain aliases
 			$v_stats = quoteshellarg($_POST["v_stats"]);
 			exec(
-				HESTIA_CMD .
-					"v-change-web-domain-stats " .
+				"v-change-web-domain-stats " .
 					$user .
 					" " .
 					quoteshellarg($v_domain) .
@@ -696,8 +668,7 @@ if (!empty($_POST["save"])) {
 			}
 
 			exec(
-				HESTIA_CMD .
-					"v-change-web-domain-sslcert " .
+				"v-change-web-domain-sslcert " .
 					$user .
 					" " .
 					quoteshellarg($v_domain) .
@@ -713,12 +684,7 @@ if (!empty($_POST["save"])) {
 			$restart_proxy = "yes";
 
 			exec(
-				HESTIA_CMD .
-					"v-list-web-domain-ssl " .
-					$user .
-					" " .
-					quoteshellarg($v_domain) .
-					" json",
+				"v-list-web-domain-ssl " . $user . " " . quoteshellarg($v_domain) . " json",
 				$output,
 				$return_var,
 			);
@@ -756,12 +722,7 @@ if (!empty($_POST["save"])) {
 		empty($_SESSION["error_msg"])
 	) {
 		exec(
-			HESTIA_CMD .
-				"v-delete-letsencrypt-domain " .
-				$user .
-				" " .
-				quoteshellarg($v_domain) .
-				" ''",
+			"v-delete-letsencrypt-domain " . $user . " " . quoteshellarg($v_domain) . " ''",
 			$output,
 			$return_var,
 		);
@@ -780,12 +741,7 @@ if (!empty($_POST["save"])) {
 	// Delete SSL certificate
 	if ($v_ssl == "yes" && empty($_POST["v_ssl"]) && empty($_SESSION["error_msg"])) {
 		exec(
-			HESTIA_CMD .
-				"v-delete-web-domain-ssl " .
-				$user .
-				" " .
-				quoteshellarg($v_domain) .
-				" 'no'",
+			"v-delete-web-domain-ssl " . $user . " " . quoteshellarg($v_domain) . " 'no'",
 			$output,
 			$return_var,
 		);
@@ -810,8 +766,7 @@ if (!empty($_POST["save"])) {
 	) {
 		$l_aliases = str_replace("\n", ",", $v_aliases);
 		exec(
-			HESTIA_CMD .
-				"v-add-letsencrypt-domain " .
+			"v-add-letsencrypt-domain " .
 				$user .
 				" " .
 				quoteshellarg($v_domain) .
@@ -887,8 +842,7 @@ if (!empty($_POST["save"])) {
 			}
 			//keep using the original value for v_ssl_home
 			exec(
-				HESTIA_CMD .
-					"v-add-web-domain-ssl " .
+				"v-add-web-domain-ssl " .
 					$user .
 					" " .
 					quoteshellarg($v_domain) .
@@ -907,12 +861,7 @@ if (!empty($_POST["save"])) {
 			$restart_proxy = "yes";
 
 			exec(
-				HESTIA_CMD .
-					"v-list-web-domain-ssl " .
-					$user .
-					" " .
-					quoteshellarg($v_domain) .
-					" json",
+				"v-list-web-domain-ssl " . $user . " " . quoteshellarg($v_domain) . " json",
 				$output,
 				$return_var,
 			);
@@ -950,7 +899,7 @@ if (!empty($_POST["save"])) {
 		empty($_SESSION["error_msg"])
 	) {
 		exec(
-			HESTIA_CMD . "v-add-web-domain-ssl-force " . $user . " " . quoteshellarg($v_domain),
+			"v-add-web-domain-ssl-force " . $user . " " . quoteshellarg($v_domain),
 			$output,
 			$return_var,
 		);
@@ -964,7 +913,7 @@ if (!empty($_POST["save"])) {
 	// Add SSL HSTS
 	if (!empty($_POST["v_ssl_hsts"]) && !empty($_POST["v_ssl"]) && empty($_SESSION["error_msg"])) {
 		exec(
-			HESTIA_CMD . "v-add-web-domain-ssl-hsts " . $user . " " . quoteshellarg($v_domain),
+			"v-add-web-domain-ssl-hsts " . $user . " " . quoteshellarg($v_domain),
 			$output,
 			$return_var,
 		);
@@ -982,7 +931,7 @@ if (!empty($_POST["save"])) {
 		empty($_SESSION["error_msg"])
 	) {
 		exec(
-			HESTIA_CMD . "v-delete-web-domain-ssl-force " . $user . " " . quoteshellarg($v_domain),
+			"v-delete-web-domain-ssl-force " . $user . " " . quoteshellarg($v_domain),
 			$output,
 			$return_var,
 		);
@@ -996,7 +945,7 @@ if (!empty($_POST["save"])) {
 	// Delete SSL HSTS
 	if ($v_ssl_hsts == "yes" && empty($_POST["v_ssl_hsts"]) && empty($_SESSION["error_msg"])) {
 		exec(
-			HESTIA_CMD . "v-delete-web-domain-ssl-hsts " . $user . " " . quoteshellarg($v_domain),
+			"v-delete-web-domain-ssl-hsts " . $user . " " . quoteshellarg($v_domain),
 			$output,
 			$return_var,
 		);
@@ -1010,7 +959,7 @@ if (!empty($_POST["save"])) {
 	// Delete web stats
 	if (!empty($v_stats) && $_POST["v_stats"] == "none" && empty($_SESSION["error_msg"])) {
 		exec(
-			HESTIA_CMD . "v-delete-web-domain-stats " . $user . " " . quoteshellarg($v_domain),
+			"v-delete-web-domain-stats " . $user . " " . quoteshellarg($v_domain),
 			$output,
 			$return_var,
 		);
@@ -1023,13 +972,7 @@ if (!empty($_POST["save"])) {
 	if (!empty($v_stats) && $_POST["v_stats"] != $v_stats && empty($_SESSION["error_msg"])) {
 		$v_stats = quoteshellarg($_POST["v_stats"]);
 		exec(
-			HESTIA_CMD .
-				"v-change-web-domain-stats " .
-				$user .
-				" " .
-				quoteshellarg($v_domain) .
-				" " .
-				$v_stats,
+			"v-change-web-domain-stats " . $user . " " . quoteshellarg($v_domain) . " " . $v_stats,
 			$output,
 			$return_var,
 		);
@@ -1041,13 +984,7 @@ if (!empty($_POST["save"])) {
 	if (empty($v_stats) && $_POST["v_stats"] != "none" && empty($_SESSION["error_msg"])) {
 		$v_stats = quoteshellarg($_POST["v_stats"]);
 		exec(
-			HESTIA_CMD .
-				"v-add-web-domain-stats " .
-				$user .
-				" " .
-				quoteshellarg($v_domain) .
-				" " .
-				$v_stats,
+			"v-add-web-domain-stats " . $user . " " . quoteshellarg($v_domain) . " " . $v_stats,
 			$output,
 			$return_var,
 		);
@@ -1058,7 +995,7 @@ if (!empty($_POST["save"])) {
 	// Delete web stats authorization
 	if (!empty($v_stats_user) && empty($_POST["v_stats_auth"]) && empty($_SESSION["error_msg"])) {
 		exec(
-			HESTIA_CMD . "v-delete-web-domain-stats-user " . $user . " " . quoteshellarg($v_domain),
+			"v-delete-web-domain-stats-user " . $user . " " . quoteshellarg($v_domain),
 			$output,
 			$return_var,
 		);
@@ -1089,8 +1026,7 @@ if (!empty($_POST["save"])) {
 			fwrite($fp, $_POST["v_stats_password"] . "\n");
 			fclose($fp);
 			exec(
-				HESTIA_CMD .
-					"v-add-web-domain-stats-user " .
+				"v-add-web-domain-stats-user " .
 					$user .
 					" " .
 					quoteshellarg($v_domain) .
@@ -1133,8 +1069,7 @@ if (!empty($_POST["save"])) {
 			fwrite($fp, $_POST["v_stats_password"] . "\n");
 			fclose($fp);
 			exec(
-				HESTIA_CMD .
-					"v-add-web-domain-stats-user " .
+				"v-add-web-domain-stats-user " .
 					$user .
 					" " .
 					quoteshellarg($v_domain) .
@@ -1198,8 +1133,7 @@ if (!empty($_POST["save"])) {
 					fwrite($fp, $v_ftp_user_data["v_ftp_password"] . "\n");
 					fclose($fp);
 					exec(
-						HESTIA_CMD .
-							"v-add-web-domain-ftp " .
+						"v-add-web-domain-ftp " .
 							$user .
 							" " .
 							quoteshellarg($v_domain) .
@@ -1310,8 +1244,7 @@ if (!empty($_POST["save"])) {
 			if ($v_ftp_user_data["delete"] == 1) {
 				$v_ftp_username = $user_plain . "_" . $v_ftp_user_data["v_ftp_user"];
 				exec(
-					HESTIA_CMD .
-						"v-delete-web-domain-ftp " .
+					"v-delete-web-domain-ftp " .
 						$user .
 						" " .
 						quoteshellarg($v_domain) .
@@ -1348,8 +1281,7 @@ if (!empty($_POST["save"])) {
 				$v_ftp_path = quoteshellarg(trim($v_ftp_user_data["v_ftp_path"]));
 				if (quoteshellarg(trim($v_ftp_user_data["v_ftp_path_prev"])) != $v_ftp_path) {
 					exec(
-						HESTIA_CMD .
-							"v-change-web-domain-ftp-path " .
+						"v-change-web-domain-ftp-path " .
 							$user .
 							" " .
 							quoteshellarg($v_domain) .
@@ -1370,8 +1302,7 @@ if (!empty($_POST["save"])) {
 					fwrite($fp, $v_ftp_user_data["v_ftp_password"] . "\n");
 					fclose($fp);
 					exec(
-						HESTIA_CMD .
-							"v-change-web-domain-ftp-password " .
+						"v-change-web-domain-ftp-password " .
 							$user .
 							" " .
 							quoteshellarg($v_domain) .
@@ -1465,12 +1396,7 @@ if (!empty($_POST["save"])) {
 	//custom docoot with check box disabled
 	if (!empty($v_custom_doc_root) && empty($_POST["v_custom_doc_root_check"])) {
 		exec(
-			HESTIA_CMD .
-				"v-change-web-domain-docroot " .
-				$user .
-				" " .
-				quoteshellarg($v_domain) .
-				" default",
+			"v-change-web-domain-docroot " . $user . " " . quoteshellarg($v_domain) . " default",
 			$output,
 			$return_var,
 		);
@@ -1489,8 +1415,7 @@ if (!empty($_POST["save"])) {
 	) {
 		if ($_POST["v-custom-doc-domain"] == $v_domain && empty($_POST["v-custom-doc-folder"])) {
 			exec(
-				HESTIA_CMD .
-					"v-change-web-domain-docroot " .
+				"v-change-web-domain-docroot " .
 					$user .
 					" " .
 					quoteshellarg($v_domain) .
@@ -1505,8 +1430,7 @@ if (!empty($_POST["save"])) {
 			$v_custom_doc_domain = quoteshellarg($_POST["v-custom-doc-domain"]);
 
 			exec(
-				HESTIA_CMD .
-					"v-change-web-domain-docroot " .
+				"v-change-web-domain-docroot " .
 					$user .
 					" " .
 					quoteshellarg($v_domain) .
@@ -1530,7 +1454,7 @@ if (!empty($_POST["save"])) {
 
 	if (!empty($v_redirect) && empty($_POST["v-redirect-checkbox"])) {
 		exec(
-			HESTIA_CMD . "v-delete-web-domain-redirect " . $user . " " . quoteshellarg($v_domain),
+			"v-delete-web-domain-redirect " . $user . " " . quoteshellarg($v_domain),
 			$output,
 			$return_var,
 		);
@@ -1549,8 +1473,7 @@ if (!empty($_POST["save"])) {
 					$_POST["v-redirect"] = $_POST["v-redirect-custom"];
 				}
 				exec(
-					HESTIA_CMD .
-						"v-add-web-domain-redirect " .
+					"v-add-web-domain-redirect " .
 						$user .
 						" " .
 						quoteshellarg($v_domain) .
@@ -1575,8 +1498,7 @@ if (!empty($_POST["save"])) {
 				$_POST["v-redirect-code"] != $v_redirect_code
 			) {
 				exec(
-					HESTIA_CMD .
-						"v-add-web-domain-redirect " .
+					"v-add-web-domain-redirect " .
 						$user .
 						" " .
 						quoteshellarg($v_domain) .

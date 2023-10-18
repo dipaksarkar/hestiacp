@@ -37,11 +37,7 @@ if (!empty($_POST["user"]) && empty($_POST["code"])) {
 				$fp = fopen($v_rkey, "w");
 				fwrite($fp, $hash . "\n");
 				fclose($fp);
-				exec(
-					HESTIA_CMD . "v-change-user-rkey " . $v_user . " " . $v_rkey . "",
-					$output,
-					$return_var,
-				);
+				exec("v-change-user-rkey " . $v_user . " " . $v_rkey . "", $output, $return_var);
 				unset($output);
 				unlink($v_rkey);
 				$template = get_email_template("reset_password", $data[$user]["LANGUAGE"]);
@@ -177,7 +173,7 @@ if (!empty($_POST["user"]) && !empty($_POST["code"]) && !empty($_POST["password"
 					fwrite($fp, $_POST["password"] . "\n");
 					fclose($fp);
 					exec(
-						HESTIA_CMD . "v-change-user-password " . $v_user . " " . $v_password,
+						"v-change-user-password " . $v_user . " " . $v_password,
 						$output,
 						$return_var,
 					);
@@ -194,8 +190,7 @@ if (!empty($_POST["user"]) && !empty($_POST["code"]) && !empty($_POST["password"
 					sleep(5);
 					$error = _("Code has been expired");
 					exec(
-						HESTIA_CMD .
-							"v-log-user-login " .
+						"v-log-user-login " .
 							$v_user .
 							" " .
 							$v_ip .
@@ -212,8 +207,7 @@ if (!empty($_POST["user"]) && !empty($_POST["code"]) && !empty($_POST["password"
 				sleep(5);
 				$error = _("Invalid username or code");
 				exec(
-					HESTIA_CMD .
-						"v-log-user-login " .
+					"v-log-user-login " .
 						$v_user .
 						" " .
 						$v_ip .

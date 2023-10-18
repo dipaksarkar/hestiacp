@@ -53,8 +53,7 @@ if (!empty($_POST["ok"])) {
 	// Add cron job
 	if (empty($_SESSION["error_msg"])) {
 		exec(
-			HESTIA_CMD .
-				"v-add-cron-job " .
+			"v-add-cron-job " .
 				$user .
 				" " .
 				$v_min .

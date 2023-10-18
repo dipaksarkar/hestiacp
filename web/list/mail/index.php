@@ -19,7 +19,7 @@ if (empty($_GET["domain"])) {
 	render_page($user, $TAB, "list_mail");
 } elseif (!empty($_GET["dns"])) {
 	exec(
-		HESTIA_CMD . "v-list-mail-domain " . $user . " " . quoteshellarg($_GET["domain"]) . " json",
+		"v-list-mail-domain " . $user . " " . quoteshellarg($_GET["domain"]) . " json",
 		$output,
 		$return_var,
 	);
@@ -31,12 +31,7 @@ if (empty($_GET["domain"])) {
 	$ips = array_reverse($ips, true);
 	unset($output);
 	exec(
-		HESTIA_CMD .
-			"v-list-mail-domain-dkim-dns " .
-			$user .
-			" " .
-			quoteshellarg($_GET["domain"]) .
-			" json",
+		"v-list-mail-domain-dkim-dns " . $user . " " . quoteshellarg($_GET["domain"]) . " json",
 		$output,
 		$return_var,
 	);
@@ -47,12 +42,7 @@ if (empty($_GET["domain"])) {
 	render_page($user, $TAB, "list_mail_dns");
 } else {
 	exec(
-		HESTIA_CMD .
-			"v-list-mail-accounts " .
-			$user .
-			" " .
-			quoteshellarg($_GET["domain"]) .
-			" json",
+		"v-list-mail-accounts " . $user . " " . quoteshellarg($_GET["domain"]) . " json",
 		$output,
 		$return_var,
 	);

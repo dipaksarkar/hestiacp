@@ -66,7 +66,7 @@ if (!empty($_POST["ok"])) {
 	// Add access key
 	if (empty($_SESSION["error_msg"])) {
 		exec(
-			HESTIA_CMD . "v-add-access-key " . $user . " " . $v_apis . " " . $v_comment . " json",
+			"v-add-access-key " . $user . " " . $v_apis . " " . $v_comment . " json",
 			$output,
 			$return_var,
 		);

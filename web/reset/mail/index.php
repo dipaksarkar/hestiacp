@@ -65,8 +65,7 @@ unset($output);
 
 // Get current password hash (called "md5" for legacy reasons, it's not guaranteed to be md5)
 exec(
-	HESTIA_CMD .
-		"v-get-mail-account-value " .
+	"v-get-mail-account-value " .
 		quoteshellarg($v_user) .
 		" " .
 		$v_domain .
@@ -96,8 +95,7 @@ $fp = tmpfile();
 $new_password_file = stream_get_meta_data($fp)["uri"];
 fwrite($fp, $_POST["new"] . "\n");
 exec(
-	HESTIA_CMD .
-		"v-change-mail-account-password " .
+	"v-change-mail-account-password " .
 		quoteshellarg($v_user) .
 		" " .
 		$v_domain .

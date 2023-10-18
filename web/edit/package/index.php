@@ -297,11 +297,7 @@ if (!empty($_POST["save"])) {
 	$tmpfile = tempnam("/tmp/", "hst_");
 	$fp = fopen($tmpfile, "w");
 	fwrite($fp, $pkg);
-	exec(
-		HESTIA_CMD . "v-add-user-package " . $tmpfile . " " . $v_package . " yes",
-		$output,
-		$return_var,
-	);
+	exec("v-add-user-package " . $tmpfile . " " . $v_package . " yes", $output, $return_var);
 	check_return_code($return_var, $output);
 	unset($output);
 
@@ -314,11 +310,7 @@ if (!empty($_POST["save"])) {
 	unset($output);
 
 	if ($v_package_new != $v_package) {
-		exec(
-			HESTIA_CMD . "v-rename-user-package " . $v_package . " " . $v_package_new,
-			$output,
-			$return_var,
-		);
+		exec("v-rename-user-package " . $v_package . " " . $v_package_new, $output, $return_var);
 		check_return_code($return_var, $output);
 		unset($output);
 	}

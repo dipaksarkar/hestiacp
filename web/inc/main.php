@@ -129,11 +129,7 @@ if (!defined("NO_AUTH_REQUIRED")) {
 	} elseif ($_SESSION["INACTIVE_SESSION_TIMEOUT"] * 60 + $_SESSION["LAST_ACTIVITY"] < time()) {
 		$v_user = quoteshellarg($_SESSION["user"]);
 		$v_session_id = quoteshellarg($_SESSION["token"]);
-		exec(
-			HESTIA_CMD . "v-log-user-logout " . $v_user . " " . $v_session_id,
-			$output,
-			$return_var,
-		);
+		exec("v-log-user-logout " . $v_user . " " . $v_session_id, $output, $return_var);
 		destroy_sessions();
 		header("Location: /login/");
 		exit();
@@ -263,7 +259,7 @@ function show_alert_message($data) {
 }
 
 function top_panel($user, $TAB) {
-	$command = HESTIA_CMD . "v-list-user " . $user . " 'json'";
+	$command = "v-list-user " . $user . " 'json'";
 	exec($command, $output, $return_var);
 	if ($return_var > 0) {
 		destroy_sessions();
@@ -557,11 +553,7 @@ function backendtpl_with_webdomains() {
 
 	$backend_list = [];
 	foreach ($users as $user => $user_details) {
-		exec(
-			HESTIA_CMD . "v-list-web-domains " . quoteshellarg($user) . " json",
-			$output,
-			$return_var,
-		);
+		exec("v-list-web-domains " . quoteshellarg($user) . " json", $output, $return_var);
 		$domains = json_decode(implode("", $output), true);
 		unset($output);
 		foreach ($domains as $domain => $domain_details) {

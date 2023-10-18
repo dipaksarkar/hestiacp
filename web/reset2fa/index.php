@@ -28,8 +28,7 @@ if (!empty($_POST["user"]) && !empty($_POST["twofa"])) {
 			session_destroy();
 		} else {
 			exec(
-				HESTIA_CMD .
-					"v-log-user-login " .
+				"v-log-user-login " .
 					$v_user .
 					" " .
 					$v_ip .
@@ -45,8 +44,7 @@ if (!empty($_POST["user"]) && !empty($_POST["twofa"])) {
 		}
 	} else {
 		exec(
-			HESTIA_CMD .
-				"v-log-user-login " .
+			"v-log-user-login " .
 				$v_user .
 				" " .
 				$v_ip .

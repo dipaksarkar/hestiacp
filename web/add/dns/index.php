@@ -81,8 +81,7 @@ if (!empty($_POST["ok"])) {
 	// Add dns domain
 	if (empty($_SESSION["error_msg"])) {
 		exec(
-			HESTIA_CMD .
-				"v-add-dns-domain " .
+			"v-add-dns-domain " .
 				$user .
 				" " .
 				$v_domain .
@@ -124,14 +123,7 @@ if (!empty($_POST["ok"])) {
 	) {
 		$v_template = quoteshellarg($_POST["v_template"]);
 		exec(
-			HESTIA_CMD .
-				"v-change-dns-domain-tpl " .
-				$user .
-				" " .
-				$v_domain .
-				" " .
-				$v_template .
-				" 'no'",
+			"v-change-dns-domain-tpl " . $user . " " . $v_domain . " " . $v_template . " 'no'",
 			$output,
 			$return_var,
 		);
@@ -144,14 +136,7 @@ if (!empty($_POST["ok"])) {
 		if (!empty($_POST["v_exp"]) && $_POST["v_exp"] != date("Y-m-d", strtotime("+1 year"))) {
 			$v_exp = quoteshellarg($_POST["v_exp"]);
 			exec(
-				HESTIA_CMD .
-					"v-change-dns-domain-exp " .
-					$user .
-					" " .
-					$v_domain .
-					" " .
-					$v_exp .
-					" no",
+				"v-change-dns-domain-exp " . $user . " " . $v_domain . " " . $v_exp . " no",
 				$output,
 				$return_var,
 			);
@@ -169,14 +154,7 @@ if (!empty($_POST["ok"])) {
 		) {
 			$v_ttl = quoteshellarg($_POST["v_ttl"]);
 			exec(
-				HESTIA_CMD .
-					"v-change-dns-domain-ttl " .
-					$user .
-					" " .
-					$v_domain .
-					" " .
-					$v_ttl .
-					" no",
+				"v-change-dns-domain-ttl " . $user . " " . $v_domain . " " . $v_ttl . " no",
 				$output,
 				$return_var,
 			);
@@ -250,8 +228,7 @@ if (!empty($_POST["ok_rec"])) {
 	// Add dns record
 	if (empty($_SESSION["error_msg"])) {
 		exec(
-			HESTIA_CMD .
-				"v-add-dns-record " .
+			"v-add-dns-record " .
 				$user .
 				" " .
 				$v_domain .

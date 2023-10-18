@@ -109,8 +109,7 @@ function api_legacy(array $request_data) {
 			fwrite($fp, $password . "\n");
 			unset($output);
 			exec(
-				HESTIA_CMD .
-					'v-check-user-password "admin" ' .
+				'v-check-user-password "admin" ' .
 					quoteshellarg($v_password) .
 					" " .
 					$v_ip .
@@ -133,11 +132,7 @@ function api_legacy(array $request_data) {
 		fclose($fp);
 
 		// Check user hash
-		exec(
-			HESTIA_CMD . "v-check-user-hash " . $user . " " . $v_hash . " " . $v_ip,
-			$output,
-			$return_var,
-		);
+		exec("v-check-user-hash " . $user . " " . $v_hash . " " . $v_ip, $output, $return_var);
 		unset($output);
 
 		// Remove tmp file
@@ -150,11 +145,7 @@ function api_legacy(array $request_data) {
 	} else {
 		$key = "/usr/local/hestia/data/keys/" . basename($request_data["hash"]);
 		$v_ip = quoteshellarg(get_real_user_ip());
-		exec(
-			HESTIA_CMD . "v-check-api-key " . quoteshellarg($key) . " " . $v_ip,
-			$output,
-			$return_var,
-		);
+		exec("v-check-api-key " . quoteshellarg($key) . " " . $v_ip, $output, $return_var);
 		unset($output);
 		// Check API answer
 		if ($return_var > 0) {
@@ -185,7 +176,7 @@ function api_legacy(array $request_data) {
 		$return_var = 0;
 	} else {
 		// Prepare command
-		$cmdquery = HESTIA_CMD . escapeshellcmd($hst_cmd);
+		$cmdquery = escapeshellcmd($hst_cmd);
 
 		// Prepare arguments
 		foreach ($hst_cmd_args as $cmd_arg) {
@@ -265,8 +256,7 @@ function api_connection(array $request_data) {
 
 	// Authenticates the key and checks permission to run the script
 	exec(
-		HESTIA_CMD .
-			"v-check-access-key " .
+		"v-check-access-key " .
 			quoteshellarg($hst_access_key_id) .
 			" " .
 			quoteshellarg($hst_secret_access_key) .
@@ -310,7 +300,7 @@ function api_connection(array $request_data) {
 	}
 
 	// Prepare command
-	$cmdquery = HESTIA_CMD . escapeshellcmd($hst_cmd);
+	$cmdquery = escapeshellcmd($hst_cmd);
 
 	// Prepare arguments
 	foreach ($hst_cmd_args as $cmd_arg) {

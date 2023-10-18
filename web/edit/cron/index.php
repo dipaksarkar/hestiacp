@@ -59,8 +59,7 @@ if (!empty($_POST["save"])) {
 
 	// Save changes
 	exec(
-		HESTIA_CMD .
-			"v-change-cron-job " .
+		"v-change-cron-job " .
 			$user .
 			" " .
 			$v_job .

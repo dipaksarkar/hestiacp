@@ -30,7 +30,7 @@ if (!empty($_POST["save"])) {
 		fwrite($fp, str_replace("\r\n", "\n", $_POST["v_config"]));
 		fclose($fp);
 		exec(
-			HESTIA_CMD . "v-change-sys-service-config " . $new_conf . " dovecot " . $v_restart,
+			"v-change-sys-service-config " . $new_conf . " dovecot " . $v_restart,
 			$output,
 			$return_var,
 		);
@@ -47,7 +47,7 @@ if (!empty($_POST["save"])) {
 		fwrite($fp, str_replace("\r\n", "\n", $_POST["v_config1"]));
 		fclose($fp);
 		exec(
-			HESTIA_CMD . "v-change-sys-service-config " . $new_conf . " dovecot-1 " . $v_restart,
+			"v-change-sys-service-config " . $new_conf . " dovecot-1 " . $v_restart,
 			$output,
 			$return_var,
 		);
@@ -64,7 +64,7 @@ if (!empty($_POST["save"])) {
 		fwrite($fp, str_replace("\r\n", "\n", $_POST["v_config2"]));
 		fclose($fp);
 		exec(
-			HESTIA_CMD . "v-change-sys-service-config " . $new_conf . " dovecot-2 " . $v_restart,
+			"v-change-sys-service-config " . $new_conf . " dovecot-2 " . $v_restart,
 			$output,
 			$return_var,
 		);
@@ -81,7 +81,7 @@ if (!empty($_POST["save"])) {
 		fwrite($fp, str_replace("\r\n", "\n", $_POST["v_config3"]));
 		fclose($fp);
 		exec(
-			HESTIA_CMD . "v-change-sys-service-config " . $new_conf . " dovecot-3 " . $v_restart,
+			"v-change-sys-service-config " . $new_conf . " dovecot-3 " . $v_restart,
 			$output,
 			$return_var,
 		);
@@ -98,7 +98,7 @@ if (!empty($_POST["save"])) {
 		fwrite($fp, str_replace("\r\n", "\n", $_POST["v_config4"]));
 		fclose($fp);
 		exec(
-			HESTIA_CMD . "v-change-sys-service-config " . $new_conf . " dovecot-4 " . $v_restart,
+			"v-change-sys-service-config " . $new_conf . " dovecot-4 " . $v_restart,
 			$output,
 			$return_var,
 		);
@@ -115,7 +115,7 @@ if (!empty($_POST["save"])) {
 		fwrite($fp, str_replace("\r\n", "\n", $_POST["v_config5"]));
 		fclose($fp);
 		exec(
-			HESTIA_CMD . "v-change-sys-service-config " . $new_conf . " dovecot-5 " . $v_restart,
+			"v-change-sys-service-config " . $new_conf . " dovecot-5 " . $v_restart,
 			$output,
 			$return_var,
 		);
@@ -132,7 +132,7 @@ if (!empty($_POST["save"])) {
 		fwrite($fp, str_replace("\r\n", "\n", $_POST["v_config6"]));
 		fclose($fp);
 		exec(
-			HESTIA_CMD . "v-change-sys-service-config " . $new_conf . " dovecot-6 " . $v_restart,
+			"v-change-sys-service-config " . $new_conf . " dovecot-6 " . $v_restart,
 			$output,
 			$return_var,
 		);
@@ -149,7 +149,7 @@ if (!empty($_POST["save"])) {
 		fwrite($fp, str_replace("\r\n", "\n", $_POST["v_config7"]));
 		fclose($fp);
 		exec(
-			HESTIA_CMD . "v-change-sys-service-config " . $new_conf . " dovecot-7 " . $v_restart,
+			"v-change-sys-service-config " . $new_conf . " dovecot-7 " . $v_restart,
 			$output,
 			$return_var,
 		);
@@ -166,7 +166,7 @@ if (!empty($_POST["save"])) {
 		fwrite($fp, str_replace("\r\n", "\n", $_POST["v_config8"]));
 		fclose($fp);
 		exec(
-			HESTIA_CMD . "v-change-sys-service-config " . $new_conf . " dovecot-8 " . $v_restart,
+			"v-change-sys-service-config " . $new_conf . " dovecot-8 " . $v_restart,
 			$output,
 			$return_var,
 		);

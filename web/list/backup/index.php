@@ -19,7 +19,7 @@ if (empty($_GET["backup"])) {
 	render_page($user, $TAB, "list_backup");
 } else {
 	exec(
-		HESTIA_CMD . "v-list-user-backup $user " . quoteshellarg($_GET["backup"]) . " json",
+		"v-list-user-backup $user " . quoteshellarg($_GET["backup"]) . " json",
 		$output,
 		$return_var,
 	);

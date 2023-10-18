@@ -74,8 +74,7 @@ if (!empty($_POST["ok"])) {
 	// Add firewall rule
 	if (empty($_SESSION["error_msg"])) {
 		exec(
-			HESTIA_CMD .
-				"v-add-firewall-rule " .
+			"v-add-firewall-rule " .
 				$v_action .
 				" " .
 				$v_ip .

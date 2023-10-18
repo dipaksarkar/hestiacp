@@ -32,8 +32,7 @@ $v_session_id = quoteshellarg($_SESSION["token"]);
 // Add current user session back to log unless impersonating another user
 if (!isset($_SESSION["look"])) {
 	exec(
-		HESTIA_CMD .
-			"v-log-user-login " .
+		"v-log-user-login " .
 			$user .
 			" " .
 			$v_ip .

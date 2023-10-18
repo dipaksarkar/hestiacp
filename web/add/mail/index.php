@@ -17,7 +17,7 @@ if (!empty($_GET["domain"])) {
 if (!empty($v_domain)) {
 	// Set webmail alias
 	exec(
-		HESTIA_CMD . "v-list-mail-domain " . $user . " " . quoteshellarg($v_domain) . " json",
+		"v-list-mail-domain " . $user . " " . quoteshellarg($v_domain) . " json",
 		$output,
 		$return_var,
 	);
@@ -78,8 +78,7 @@ if (!empty($_POST["ok"])) {
 	// Add mail domain
 	if (empty($_SESSION["error_msg"])) {
 		exec(
-			HESTIA_CMD .
-				"v-add-mail-domain " .
+			"v-add-mail-domain " .
 				$user .
 				" " .
 				$v_domain .
@@ -97,11 +96,7 @@ if (!empty($_POST["ok"])) {
 	}
 
 	if (!empty($_POST["v_reject"]) && $v_antispam == "yes") {
-		exec(
-			HESTIA_CMD . "v-add-mail-domain-reject " . $user . " " . $v_domain . " yes",
-			$output,
-			$return_var,
-		);
+		exec("v-add-mail-domain-reject " . $user . " " . $v_domain . " yes", $output, $return_var);
 		check_return_code($return_var, $output);
 		unset($output);
 	}
@@ -111,8 +106,7 @@ if (!empty($_POST["ok"])) {
 			if (!empty($_POST["v_webmail"])) {
 				$v_webmail = quoteshellarg($_POST["v_webmail"]);
 				exec(
-					HESTIA_CMD .
-						"v-add-mail-domain-webmail " .
+					"v-add-mail-domain-webmail " .
 						$user .
 						" " .
 						$v_domain .
@@ -132,7 +126,7 @@ if (!empty($_POST["ok"])) {
 		if (empty($_POST["v_webmail"])) {
 			if (empty($_SESSION["error_msg"])) {
 				exec(
-					HESTIA_CMD . "v-delete-mail-domain-webmail " . $user . " " . $v_domain . " yes",
+					"v-delete-mail-domain-webmail " . $user . " " . $v_domain . " yes",
 					$output,
 					$return_var,
 				);
@@ -160,8 +154,7 @@ if (!empty($_POST["ok"])) {
 					$v_smtp_relay_port = "587";
 				}
 				exec(
-					HESTIA_CMD .
-						"v-add-mail-domain-smtp-relay " .
+					"v-add-mail-domain-smtp-relay " .
 						$user .
 						" " .
 						$v_domain .
@@ -269,8 +262,7 @@ if (!empty($_POST["ok_acc"])) {
 		fwrite($fp, $_POST["v_password"] . "\n");
 		fclose($fp);
 		exec(
-			HESTIA_CMD .
-				"v-add-mail-account " .
+			"v-add-mail-account " .
 				$user .
 				" " .
 				$v_domain .
@@ -300,8 +292,7 @@ if (!empty($_POST["ok_acc"])) {
 			$alias = quoteshellarg($alias);
 			if (empty($_SESSION["error_msg"])) {
 				exec(
-					HESTIA_CMD .
-						"v-add-mail-account-alias " .
+					"v-add-mail-account-alias " .
 						$user .
 						" " .
 						$v_domain .
@@ -320,8 +311,7 @@ if (!empty($_POST["ok_acc"])) {
 
 	if (!empty($_POST["v_blackhole"]) && empty($_SESSION["error_msg"])) {
 		exec(
-			HESTIA_CMD .
-				"v-add-mail-account-forward " .
+			"v-add-mail-account-forward " .
 				$user .
 				" " .
 				$v_domain .
@@ -347,8 +337,7 @@ if (!empty($_POST["ok_acc"])) {
 			$forward = quoteshellarg($forward);
 			if (empty($_SESSION["error_msg"])) {
 				exec(
-					HESTIA_CMD .
-						"v-add-mail-account-forward " .
+					"v-add-mail-account-forward " .
 						$user .
 						" " .
 						$v_domain .
@@ -368,13 +357,7 @@ if (!empty($_POST["ok_acc"])) {
 	// Add fwd_only flag
 	if (!empty($_POST["v_fwd_only"]) && empty($_SESSION["error_msg"])) {
 		exec(
-			HESTIA_CMD .
-				"v-add-mail-account-fwd-only " .
-				$user .
-				" " .
-				$v_domain .
-				" " .
-				$v_account,
+			"v-add-mail-account-fwd-only " . $user . " " . $v_domain . " " . $v_account,
 			$output,
 			$return_var,
 		);
@@ -390,8 +373,7 @@ if (!empty($_POST["ok_acc"])) {
 	) {
 		$v_rate = quoteshellarg($_POST["v_rate"]);
 		exec(
-			HESTIA_CMD .
-				"v-change-mail-account-rate-limit " .
+			"v-change-mail-account-rate-limit " .
 				$user .
 				" " .
 				$v_domain .

@@ -30,11 +30,7 @@ if (!empty($_POST["save"])) {
 		fwrite($fp, str_replace("\r\n", "\n", $_POST["v_options"]));
 		fclose($fp);
 		exec(
-			HESTIA_CMD .
-				"v-change-sys-service-config " .
-				$new_conf .
-				" postgresql-hba " .
-				$v_restart,
+			"v-change-sys-service-config " . $new_conf . " postgresql-hba " . $v_restart,
 			$output,
 			$return_var,
 		);
@@ -51,7 +47,7 @@ if (!empty($_POST["save"])) {
 		fwrite($fp, str_replace("\r\n", "\n", $_POST["v_config"]));
 		fclose($fp);
 		exec(
-			HESTIA_CMD . "v-change-sys-service-config " . $new_conf . " postgresql " . $v_restart,
+			"v-change-sys-service-config " . $new_conf . " postgresql " . $v_restart,
 			$output,
 			$return_var,
 		);

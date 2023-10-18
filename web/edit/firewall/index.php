@@ -101,8 +101,7 @@ if (!empty($_POST["save"])) {
 
 		// Change Status
 		exec(
-			HESTIA_CMD .
-				"v-change-firewall-rule " .
+			"v-change-firewall-rule " .
 				$v_rule .
 				" " .
 				$v_action .

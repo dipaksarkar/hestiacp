@@ -31,16 +31,14 @@ if (isset($_SESSION["user"])) {
 				$_SESSION["look"] = key($data);
 				// Log impersonation events
 				exec(
-					HESTIA_CMD .
-						"v-log-action " .
+					"v-log-action " .
 						$v_impersonator .
 						" 'Info' 'Security' 'Logged in as another user (User: $v_user)'",
 					$output,
 					$return_var,
 				);
 				exec(
-					HESTIA_CMD .
-						"v-log-action system 'Warning' 'Security' 'User impersonation session started (User: $v_user, Administrator: $v_impersonator)'",
+					"v-log-action system 'Warning' 'Security' 'User impersonation session started (User: $v_user, Administrator: $v_impersonator)'",
 					$output,
 					$return_var,
 				);
@@ -154,8 +152,7 @@ function authenticate_user($user, $password, $twofa = "") {
 				$v_password = stream_get_meta_data($fp)["uri"];
 				fwrite($fp, $password . "\n");
 				exec(
-					HESTIA_CMD .
-						"v-check-user-password " .
+					"v-check-user-password " .
 						$v_user .
 						" " .
 						quoteshellarg($v_password) .
@@ -195,8 +192,7 @@ function authenticate_user($user, $password, $twofa = "") {
 				$error = _("Invalid username or password");
 				$v_session_id = quoteshellarg($_POST["token"]);
 				exec(
-					HESTIA_CMD .
-						"v-log-user-login " .
+					"v-log-user-login " .
 						$v_user .
 						" " .
 						$v_ip .
@@ -218,8 +214,7 @@ function authenticate_user($user, $password, $twofa = "") {
 					$error = _("Invalid username or password");
 					$v_session_id = quoteshellarg($_POST["token"]);
 					exec(
-						HESTIA_CMD .
-							"v-log-user-login " .
+						"v-log-user-login " .
 							$v_user .
 							" " .
 							$v_ip .
@@ -242,8 +237,7 @@ function authenticate_user($user, $password, $twofa = "") {
 						$error = _("Invalid username or password");
 						$v_session_id = quoteshellarg($_POST["token"]);
 						exec(
-							HESTIA_CMD .
-								"v-log-user-login " .
+							"v-log-user-login " .
 								$v_user .
 								" " .
 								$v_ip .
@@ -280,8 +274,7 @@ function authenticate_user($user, $password, $twofa = "") {
 								//allow a few failed attemps before start of logging.
 								if ($_SESSION["failed_twofa"] > 2) {
 									exec(
-										HESTIA_CMD .
-											"v-log-user-login " .
+										"v-log-user-login " .
 											$v_user .
 											" " .
 											$v_ip .
@@ -310,8 +303,7 @@ function authenticate_user($user, $password, $twofa = "") {
 				//log successfull login attempt
 				$v_session_id = quoteshellarg($_POST["token"]);
 				exec(
-					HESTIA_CMD .
-						"v-log-user-login " .
+					"v-log-user-login " .
 						$v_user .
 						" " .
 						$v_ip .

@@ -74,8 +74,7 @@ if (!empty($_POST["ok"])) {
 		fwrite($fp, $_POST["v_password"] . "\n");
 		fclose($fp);
 		exec(
-			HESTIA_CMD .
-				"v-add-database " .
+			"v-add-database " .
 				$user .
 				" " .
 				$v_database .

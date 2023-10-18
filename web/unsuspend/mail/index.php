@@ -35,7 +35,7 @@ if (!empty($_GET["domain"]) && !empty($_GET["account"])) {
 	$v_domain = quoteshellarg($_GET["domain"]);
 	$v_account = quoteshellarg($_GET["account"]);
 	exec(
-		HESTIA_CMD . "v-unsuspend-mail-account " . $user . " " . $v_domain . " " . $v_account,
+		"v-unsuspend-mail-account " . $user . " " . $v_domain . " " . $v_account,
 		$output,
 		$return_var,
 	);
