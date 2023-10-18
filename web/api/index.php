@@ -57,7 +57,7 @@ function api_error($exit_code, $message, $hst_return, bool $add_log = false, $us
  */
 function api_legacy(array $request_data) {
 	$hst_return = ($request_data["returncode"] ?? "no") === "yes" ? "code" : "data";
-	exec(HESTIA_CMD . "v-list-sys-config json", $output, $return_var);
+	exec("v-list-sys-config json", $output, $return_var);
 	$settings = json_decode(implode("", $output), true);
 	unset($output);
 
@@ -77,7 +77,7 @@ function api_legacy(array $request_data) {
 	//This exists, so native JSON can be used without the repeating the code twice, so future code changes are easier and don't need to be replicated twice
 	// Authentication
 	if (empty($request_data["hash"])) {
-		exec(HESTIA_CMD . "v-list-sys-config json", $output, $return_var);
+		exec("v-list-sys-config json", $output, $return_var);
 		$data = json_decode(implode("", $output), true);
 		$root_user = $data["config"]["ROOT_USER"];
 
@@ -91,7 +91,7 @@ function api_legacy(array $request_data) {
 		$v_ip = quoteshellarg(get_real_user_ip());
 		$user = quoteshellarg($root_user);
 		unset($output);
-		exec(HESTIA_CMD . "v-get-user-salt " . $user . " " . $v_ip . " json", $output, $return_var);
+		exec("v-get-user-salt " . $user . " " . $v_ip . " json", $output, $return_var);
 		$pam = json_decode(implode("", $output), true);
 		$salt = $pam[$root_user]["SALT"];
 		$method = $pam[$root_user]["METHOD"];
@@ -219,7 +219,7 @@ function api_connection(array $request_data) {
 	$hst_return = ($request_data["returncode"] ?? "no") === "yes" ? "code" : "data";
 	$v_real_user_ip = get_real_user_ip();
 
-	exec(HESTIA_CMD . "v-list-sys-config json", $output, $return_var);
+	exec("v-list-sys-config json", $output, $return_var);
 	$settings = json_decode(implode("", $output), true);
 	unset($output, $return_var);
 

@@ -30,7 +30,7 @@ if ($return_var > 0) {
 	check_return_code_redirect($return_var, $output, "/list/web/");
 }
 unset($output);
-exec(HESTIA_CMD . "v-list-sys-php json", $output, $return_var);
+exec("v-list-sys-php json", $output, $return_var);
 $php_versions = json_decode(implode("", $output), true);
 unset($output);
 

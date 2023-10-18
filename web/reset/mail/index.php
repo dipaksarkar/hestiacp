@@ -11,7 +11,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/main.php";
 $ok = 0;
 $ip = $_SERVER["REMOTE_ADDR"];
 
-exec(HESTIA_CMD . "v-list-sys-ips json", $output, $return_var);
+exec("v-list-sys-ips json", $output, $return_var);
 $output = implode("", $output);
 $arr = json_decode($output, true);
 foreach ($arr as $arr_key => $arr_val) {
@@ -55,7 +55,7 @@ $v_account = quoteshellarg($v_account);
 $v_password = $_POST["password"];
 
 // Get domain owner
-exec(HESTIA_CMD . "v-search-domain-owner " . $v_domain . " 'mail'", $output, $return_var);
+exec("v-search-domain-owner " . $v_domain . " 'mail'", $output, $return_var);
 if ($return_var != 0 || empty($output[0])) {
 	echo "error domain owner not found";
 	exit();

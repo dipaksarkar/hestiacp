@@ -67,8 +67,8 @@ $v_config_path = "/etc/bind/named.conf";
 $v_service_name = strtoupper("bind9");
 
 // Read config
-$v_options = shell_exec(HESTIA_CMD . "v-open-fs-config " . $v_options_path);
-$v_config = shell_exec(HESTIA_CMD . "v-open-fs-config " . $v_config_path);
+$v_options = shell_exec("v-open-fs-config " . $v_options_path);
+$v_config = shell_exec("v-open-fs-config " . $v_config_path);
 
 // Render page
 render_page($user, $TAB, "edit_server_bind9");

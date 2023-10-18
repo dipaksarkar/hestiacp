@@ -13,7 +13,7 @@ if ($_SESSION["userContext"] === "admin" && isset($_GET["user"])) {
 }
 
 // Clear log
-exec(HESTIA_CMD . "v-delete-user-auth-log " . $user, $output, $return_var);
+exec("v-delete-user-auth-log " . $user, $output, $return_var);
 check_return_code($return_var, $output);
 unset($output);
 

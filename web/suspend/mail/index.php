@@ -10,7 +10,7 @@ verify_csrf($_GET);
 // Mail domain
 if (!empty($_GET["domain"]) && empty($_GET["account"])) {
 	$v_domain = quoteshellarg($_GET["domain"]);
-	exec(HESTIA_CMD . "v-suspend-mail-domain " . $user . " " . $v_domain, $output, $return_var);
+	exec("v-suspend-mail-domain " . $user . " " . $v_domain, $output, $return_var);
 	check_return_code($return_var, $output);
 	unset($output);
 	$back = getenv("HTTP_REFERER");

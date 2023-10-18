@@ -15,7 +15,7 @@ verify_csrf($_GET);
 // DNS domain
 if (!empty($_GET["domain"]) && empty($_GET["record_id"])) {
 	$v_domain = quoteshellarg($_GET["domain"]);
-	exec(HESTIA_CMD . "v-delete-dns-domain " . $user . " " . $v_domain, $output, $return_var);
+	exec("v-delete-dns-domain " . $user . " " . $v_domain, $output, $return_var);
 	check_return_code($return_var, $output);
 	unset($output);
 

@@ -30,10 +30,10 @@ if ($_SESSION["userContext"] === "admin" && $_SESSION["look"] == "") {
 			$return_var,
 		);
 	} else {
-		exec(HESTIA_CMD . "v-search-object " . $q . " json", $output, $return_var);
+		exec("v-search-object " . $q . " json", $output, $return_var);
 	}
 } else {
-	exec(HESTIA_CMD . "v-search-user-object " . $user . " " . $q . " json", $output, $return_var);
+	exec("v-search-user-object " . $user . " " . $q . " json", $output, $return_var);
 }
 
 $data = json_decode(implode("", $output), true);

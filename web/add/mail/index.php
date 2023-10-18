@@ -7,7 +7,7 @@ $TAB = "MAIL";
 // Main include
 include $_SERVER["DOCUMENT_ROOT"] . "/inc/main.php";
 
-exec(HESTIA_CMD . "v-list-sys-webmail json", $output, $return_var);
+exec("v-list-sys-webmail json", $output, $return_var);
 $webmail_clients = json_decode(implode("", $output), true);
 unset($output);
 

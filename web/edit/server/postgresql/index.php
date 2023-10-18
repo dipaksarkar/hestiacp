@@ -67,7 +67,7 @@ if (!empty($_POST["save"])) {
 }
 
 // List config
-exec(HESTIA_CMD . "v-list-sys-pgsql-config json", $output, $return_var);
+exec("v-list-sys-pgsql-config json", $output, $return_var);
 $data = json_decode(implode("", $output), true);
 unset($output);
 
@@ -76,8 +76,8 @@ $v_config_path = $data["CONFIG"]["config_path"];
 $v_service_name = strtoupper("postgresql");
 
 // Read config
-$v_options = shell_exec(HESTIA_CMD . "v-open-fs-config " . $v_options_path);
-$v_config = shell_exec(HESTIA_CMD . "v-open-fs-config " . $v_config_path);
+$v_options = shell_exec("v-open-fs-config " . $v_options_path);
+$v_config = shell_exec("v-open-fs-config " . $v_config_path);
 
 // Render page
 render_page($user, $TAB, "edit_server_pgsql");

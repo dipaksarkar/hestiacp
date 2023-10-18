@@ -45,11 +45,11 @@ if (!empty($_POST["save"])) {
 	}
 }
 
-$v_config_path = shell_exec(HESTIA_CMD . "v-list-sys-clamd-config plain");
+$v_config_path = shell_exec("v-list-sys-clamd-config plain");
 $v_service_name = strtoupper("clamav");
 
 // Read config
-$v_config = shell_exec(HESTIA_CMD . "v-open-fs-config " . $v_config_path);
+$v_config = shell_exec("v-open-fs-config " . $v_config_path);
 
 // Render page
 render_page($user, $TAB, "edit_server_service");

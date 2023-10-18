@@ -21,6 +21,9 @@ define("HESTIA_DIR_BIN", "/usr/local/hestia/bin/");
 define("HESTIA_CMD", "/usr/bin/sudo /usr/local/hestia/bin/");
 define("DEFAULT_PHP_VERSION", "php-" . exec('php -r "echo substr(phpversion(),0,3);"'));
 
+// Add the Hestia bin directory to the PATH
+putenv("PATH=" . getenv("PATH") . ":" . HESTIA_DIR_BIN);
+
 // Load Hestia Config directly
 load_hestia_config();
 require_once dirname(__FILE__) . "/prevent_csrf.php";
@@ -74,7 +77,7 @@ if (
 ) {
 	$v_user = quoteshellarg($_SESSION["user"]);
 	$v_session_id = quoteshellarg($_SESSION["token"]);
-	exec(HESTIA_CMD . "v-log-user-logout " . $v_user . " " . $v_session_id, $output, $return_var);
+	exec("v-log-user-logout " . $v_user . " " . $v_session_id, $output, $return_var);
 	destroy_sessions();
 	header("Location: /login/");
 	exit();
@@ -105,7 +108,7 @@ if (isset($_SESSION["user"])) {
 		$username = $_SESSION["look"];
 	}
 
-	exec(HESTIA_CMD . "v-list-user " . quoteshellarg($username) . " json", $output, $return_var);
+	exec("v-list-user " . quoteshellarg($username) . " json", $output, $return_var);
 	$data = json_decode(implode("", $output), true);
 	unset($output, $return_var);
 	$_SESSION["login_shell"] = $data[$username]["SHELL"];
@@ -354,7 +357,7 @@ function humanize_usage_size($usage, $round = 2) {
 	}
 	if ($usage < 1) {
 		$usage = "0";
-	}	
+	}
 	$display_usage = $usage;
 	if ($usage > 1024) {
 		$usage = $usage / 1024;
@@ -521,7 +524,7 @@ function list_timezones() {
  * @return string
  */
 function is_it_mysql_or_mariadb() {
-	exec(HESTIA_CMD . "v-list-sys-services json", $output, $return_var);
+	exec("v-list-sys-services json", $output, $return_var);
 	$data = json_decode(implode("", $output), true);
 	unset($output);
 	$mysqltype = "mysql";
@@ -533,12 +536,14 @@ function is_it_mysql_or_mariadb() {
 
 function load_hestia_config() {
 	// Check system configuration
-	exec(HESTIA_CMD . "v-list-sys-config json", $output, $return_var);
+	$output = [];
+	exec("v-list-sys-config json", $output, $return_var);
 	$data = json_decode(implode("", $output), true);
 	$sys_arr = $data["config"];
 	foreach ($sys_arr as $key => $value) {
 		$_SESSION[$key] = $value;
 	}
+	var_dump($_SESSION);
 }
 
 /**
@@ -547,7 +552,7 @@ function load_hestia_config() {
  * @return array
  */
 function backendtpl_with_webdomains() {
-	exec(HESTIA_CMD . "v-list-users json", $output, $return_var);
+	exec("v-list-users json", $output, $return_var);
 	$users = json_decode(implode("", $output), true);
 	unset($output);
 

@@ -27,7 +27,7 @@ if (!empty($_POST["user"]) && empty($_POST["code"])) {
 	if ($return_var == 0) {
 		$data = json_decode(implode("", $output), true);
 		unset($output);
-		exec(HESTIA_CMD . "v-get-user-value " . $v_user . " RKEYEXP", $output, $return_var);
+		exec("v-get-user-value " . $v_user . " RKEYEXP", $output, $return_var);
 		$rkeyexp = json_decode(implode("", $output), true);
 		if ($rkeyexp === null || $rkeyexp < time() - 1) {
 			if ($email == $data[$user]["CONTACT"]) {
@@ -164,13 +164,13 @@ if (!empty($_POST["user"]) && !empty($_POST["code"]) && !empty($_POST["password"
 	if ($_POST["password"] == $_POST["password_confirm"]) {
 		$v_user = quoteshellarg($_POST["user"]);
 		$user = $_POST["user"];
-		exec(HESTIA_CMD . "v-list-user " . $v_user . " json", $output, $return_var);
+		exec("v-list-user " . $v_user . " json", $output, $return_var);
 		if ($return_var == 0) {
 			$data = json_decode(implode("", $output), true);
 			$rkey = $data[$user]["RKEY"];
 			if (password_verify($_POST["code"], $rkey)) {
 				unset($output);
-				exec(HESTIA_CMD . "v-get-user-value " . $v_user . " RKEYEXP", $output, $return_var);
+				exec("v-get-user-value " . $v_user . " RKEYEXP", $output, $return_var);
 				if ($output[0] > time() - 900) {
 					$v_password = tempnam("/tmp", "vst");
 					$fp = fopen($v_password, "w");

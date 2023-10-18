@@ -49,7 +49,7 @@ $v_config_path = "/etc/httpd/conf/httpd.conf";
 $v_service_name = strtoupper("httpd");
 
 // Read config
-$v_config = shell_exec(HESTIA_CMD . "v-open-fs-config " . $v_config_path);
+$v_config = shell_exec("v-open-fs-config " . $v_config_path);
 
 // Render page
 render_page($user, $TAB, "edit_server_httpd");

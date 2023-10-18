@@ -243,13 +243,13 @@ if (!empty($_POST["ok"])) {
 }
 
 // List hosting packages
-exec(HESTIA_CMD . "v-list-user-packages json", $output, $return_var);
+exec("v-list-user-packages json", $output, $return_var);
 check_error($return_var);
 $data = json_decode(implode("", $output), true);
 unset($output);
 
 // List languages
-exec(HESTIA_CMD . "v-list-sys-languages json", $output, $return_var);
+exec("v-list-sys-languages json", $output, $return_var);
 $language = json_decode(implode("", $output), true);
 foreach ($language as $lang) {
 	$languages[$lang] = translate_json($lang);

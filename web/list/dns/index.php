@@ -8,7 +8,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/main.php";
 // Data & Render page
 
 if (empty($_GET["domain"])) {
-	exec(HESTIA_CMD . "v-list-dns-domains " . $user . " 'json'", $output, $return_var);
+	exec("v-list-dns-domains " . $user . " 'json'", $output, $return_var);
 	$data = json_decode(implode("", $output), true);
 	if ($_SESSION["userSortOrder"] == "name") {
 		ksort($data);

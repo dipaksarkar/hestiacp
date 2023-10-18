@@ -19,7 +19,7 @@ if (empty($_GET["job"])) {
 
 // List cron job
 $v_job = quoteshellarg($_GET["job"]);
-exec(HESTIA_CMD . "v-list-cron-job " . $user . " " . $v_job . " 'json'", $output, $return_var);
+exec("v-list-cron-job " . $user . " " . $v_job . " 'json'", $output, $return_var);
 check_return_code_redirect($return_var, $output, "/list/cron/");
 
 $data = json_decode(implode("", $output), true);

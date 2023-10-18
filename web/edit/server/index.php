@@ -16,16 +16,16 @@ if ($_SESSION["userContext"] != "admin") {
 $v_hostname = exec("hostname");
 
 // List available timezones and get current one
-exec(HESTIA_CMD . "v-get-sys-timezone", $output, $return_var);
+exec("v-get-sys-timezone", $output, $return_var);
 $v_timezone = $output[0];
 unset($output);
 
-exec(HESTIA_CMD . "v-get-sys-timezones json", $output, $return_var);
+exec("v-get-sys-timezones json", $output, $return_var);
 $v_timezones = json_decode(implode("", $output), true);
 unset($output);
 
 // List supported php versions
-exec(HESTIA_CMD . "v-list-web-templates-backend json", $output, $return_var);
+exec("v-list-web-templates-backend json", $output, $return_var);
 $backend_templates = json_decode(implode("", $output), true);
 unset($output);
 
@@ -90,7 +90,7 @@ $v_php_versions = array_map(function ($php_version) use ($backend_templates, $ba
 }, $v_php_versions);
 
 // List languages
-exec(HESTIA_CMD . "v-list-sys-languages json", $output, $return_var);
+exec("v-list-sys-languages json", $output, $return_var);
 $language = json_decode(implode("", $output), true);
 foreach ($language as $lang) {
 	$languages[$lang] = translate_json($lang);
@@ -99,12 +99,12 @@ asort($languages);
 unset($output);
 
 // List themes
-exec(HESTIA_CMD . "v-list-sys-themes json", $output, $return_var);
+exec("v-list-sys-themes json", $output, $return_var);
 $theme = json_decode(implode("", $output), true);
 unset($output);
 
 // List dns cluster hosts
-exec(HESTIA_CMD . "v-list-remote-dns-hosts json", $output, $return_var);
+exec("v-list-remote-dns-hosts json", $output, $return_var);
 $dns_cluster = json_decode(implode("", $output), true);
 unset($output);
 if (is_array($dns_cluster)) {
@@ -147,7 +147,7 @@ if (empty($_POST["v_policy_user_view_suspended"])) {
 }
 
 // List Database hosts
-exec(HESTIA_CMD . "v-list-database-hosts json", $output, $return_var);
+exec("v-list-database-hosts json", $output, $return_var);
 $db_hosts = json_decode(implode("", $output), true);
 unset($output);
 $v_mysql_hosts = array_values(
@@ -252,7 +252,7 @@ if (empty($v_rclone_path)) {
 }
 
 // List ssl certificate info
-exec(HESTIA_CMD . "v-list-sys-hestia-ssl json", $output, $return_var);
+exec("v-list-sys-hestia-ssl json", $output, $return_var);
 $ssl_str = json_decode(implode("", $output), true);
 unset($output);
 $v_ssl_crt = $ssl_str["HESTIA"]["CRT"];
@@ -500,14 +500,14 @@ if (!empty($_POST["save"])) {
 			$_SESSION["FILE_MANAGER"] != $_POST["v_filemanager"]
 		) {
 			if ($_POST["v_filemanager"] == "true") {
-				exec(HESTIA_CMD . "v-add-sys-filemanager", $output, $return_var);
+				exec("v-add-sys-filemanager", $output, $return_var);
 				check_return_code($return_var, $output);
 				unset($output);
 				if (empty($_SESSION["error_msg"])) {
 					$_SESSION["FILE_MANAGER"] = "true";
 				}
 			} else {
-				exec(HESTIA_CMD . "v-delete-sys-filemanager", $output, $return_var);
+				exec("v-delete-sys-filemanager", $output, $return_var);
 				check_return_code($return_var, $output);
 				unset($output);
 				if (empty($_SESSION["error_msg"])) {
@@ -523,14 +523,14 @@ if (!empty($_POST["save"])) {
 			$_SESSION["WEB_TERMINAL"] != $_POST["v_web_terminal"]
 		) {
 			if ($_POST["v_web_terminal"] == "true") {
-				exec(HESTIA_CMD . "v-add-sys-web-terminal", $output, $return_var);
+				exec("v-add-sys-web-terminal", $output, $return_var);
 				check_return_code($return_var, $output);
 				unset($output);
 				if (empty($_SESSION["error_msg"])) {
 					$_SESSION["WEB_TERMINAL"] = "true";
 				}
 			} else {
-				exec(HESTIA_CMD . "v-delete-sys-web-terminal", $output, $return_var);
+				exec("v-delete-sys-web-terminal", $output, $return_var);
 				check_return_code($return_var, $output);
 				unset($output);
 				if (empty($_SESSION["error_msg"])) {
@@ -543,14 +543,14 @@ if (!empty($_POST["save"])) {
 	if (empty($_SESSION["error_msg"])) {
 		if (!empty($_POST["v_phpmyadmin_key"])) {
 			if ($_POST["v_phpmyadmin_key"] == "yes" && $_SESSION["PHPMYADMIN_KEY"] == "") {
-				exec(HESTIA_CMD . "v-add-sys-pma-sso quiet", $output, $return_var);
+				exec("v-add-sys-pma-sso quiet", $output, $return_var);
 				check_return_code($return_var, $output);
 				unset($output);
 				if (empty($_SESSION["error_msg"])) {
 					$_SESSION["PHPMYADMIN_KEY"] != "";
 				}
 			} elseif ($_POST["v_phpmyadmin_key"] == "no" && $_SESSION["PHPMYADMIN_KEY"] != "") {
-				exec(HESTIA_CMD . "v-delete-sys-pma-sso quiet", $output, $return_var);
+				exec("v-delete-sys-pma-sso quiet", $output, $return_var);
 				check_return_code($return_var, $output);
 				unset($output);
 				if (empty($_SESSION["error_msg"])) {
@@ -564,14 +564,14 @@ if (!empty($_POST["save"])) {
 	if (empty($_SESSION["error_msg"])) {
 		if (!empty($_POST["v_quota"]) && $_SESSION["DISK_QUOTA"] != $_POST["v_quota"]) {
 			if ($_POST["v_quota"] == "yes") {
-				exec(HESTIA_CMD . "v-add-sys-quota", $output, $return_var);
+				exec("v-add-sys-quota", $output, $return_var);
 				check_return_code($return_var, $output);
 				unset($output);
 				if (empty($_SESSION["error_msg"])) {
 					$_SESSION["DISK_QUOTA"] = "yes";
 				}
 			} else {
-				exec(HESTIA_CMD . "v-delete-sys-quota", $output, $return_var);
+				exec("v-delete-sys-quota", $output, $return_var);
 				check_return_code($return_var, $output);
 				unset($output);
 				if (empty($_SESSION["error_msg"])) {
@@ -591,14 +591,14 @@ if (!empty($_POST["save"])) {
 		}
 		if (!empty($_POST["v_firewall"]) && $v_firewall != $_POST["v_firewall"]) {
 			if ($_POST["v_firewall"] == "yes") {
-				exec(HESTIA_CMD . "v-add-sys-firewall", $output, $return_var);
+				exec("v-add-sys-firewall", $output, $return_var);
 				check_return_code($return_var, $output);
 				unset($output);
 				if (empty($_SESSION["error_msg"])) {
 					$_SESSION["FIREWALL_SYSTEM"] = "iptables";
 				}
 			} else {
-				exec(HESTIA_CMD . "v-delete-sys-firewall", $output, $return_var);
+				exec("v-delete-sys-firewall", $output, $return_var);
 				check_return_code($return_var, $output);
 				unset($output);
 				if (empty($_SESSION["error_msg"])) {
@@ -681,7 +681,7 @@ if (!empty($_POST["save"])) {
 		if (!isset($_POST["v_smtp_relay"]) && $v_smtp_relay == true) {
 			$v_smtp_relay = false;
 			$v_smtp_relay_host = $v_smtp_relay_user = $v_smtp_relay_pass = $v_smtp_relay_port = "";
-			exec(HESTIA_CMD . "v-delete-sys-smtp-relay", $output, $return_var);
+			exec("v-delete-sys-smtp-relay", $output, $return_var);
 			check_return_code($return_var, $output);
 			unset($output);
 		}
@@ -780,7 +780,7 @@ if (!empty($_POST["save"])) {
 	// Disable local backup
 	if (empty($_SESSION["error_msg"])) {
 		if ($_POST["v_backup"] == "no" && $v_backup == "yes") {
-			exec(HESTIA_CMD . "v-delete-backup-host local", $output, $return_var);
+			exec("v-delete-backup-host local", $output, $return_var);
 			check_return_code($return_var, $output);
 			unset($output);
 			if (empty($_SESSION["error_msg"])) {
@@ -793,7 +793,7 @@ if (!empty($_POST["save"])) {
 	// Enable local backups
 	if (empty($_SESSION["error_msg"])) {
 		if ($_POST["v_backup"] == "yes" && $v_backup != "yes") {
-			exec(HESTIA_CMD . "v-add-backup-host local", $output, $return_var);
+			exec("v-add-backup-host local", $output, $return_var);
 			check_return_code($return_var, $output);
 			unset($output);
 			if (empty($_SESSION["error_msg"])) {
@@ -1355,7 +1355,7 @@ if (!empty($_POST["save"])) {
 	) {
 		if (empty($_SESSION["error_msg"])) {
 			if ($_POST["v_api"] == "no" && $_POST["v_api_system"] === 0) {
-				exec(HESTIA_CMD . "v-change-sys-api 'disable'", $output, $return_var);
+				exec("v-change-sys-api 'disable'", $output, $return_var);
 				check_return_code($return_var, $output);
 				unset($output);
 			}
@@ -1365,7 +1365,7 @@ if (!empty($_POST["save"])) {
 					$_POST["v_api_system"] != $_SESSION["API_SYSTEM"]) ||
 				$_POST["v_api"] != $_SESSION["API"]
 			) {
-				exec(HESTIA_CMD . "v-change-sys-api 'enable'", $output, $return_var);
+				exec("v-change-sys-api 'enable'", $output, $return_var);
 				check_return_code($return_var, $output);
 				unset($output);
 			}
@@ -1719,12 +1719,12 @@ if (!empty($_POST["save"])) {
 				fclose($fp);
 			}
 
-			exec(HESTIA_CMD . "v-change-sys-hestia-ssl " . $tmpdir, $output, $return_var);
+			exec("v-change-sys-hestia-ssl " . $tmpdir, $output, $return_var);
 			check_return_code($return_var, $output);
 			unset($output);
 
 			// List ssl certificate info
-			exec(HESTIA_CMD . "v-list-sys-hestia-ssl json", $output, $return_var);
+			exec("v-list-sys-hestia-ssl json", $output, $return_var);
 			$ssl_str = json_decode(implode("", $output), true);
 			unset($output);
 			$v_ssl_crt = $ssl_str["HESTIA"]["CRT"];
@@ -1762,7 +1762,7 @@ if (!empty($_POST["save"])) {
 }
 
 // Check system configuration
-exec(HESTIA_CMD . "v-list-sys-config json", $output, $return_var);
+exec("v-list-sys-config json", $output, $return_var);
 $data = json_decode(implode("", $output), true);
 unset($output);
 

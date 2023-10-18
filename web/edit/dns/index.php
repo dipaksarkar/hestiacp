@@ -20,7 +20,7 @@ if ($_SESSION["userContext"] === "admin" && !empty($_GET["user"])) {
 }
 
 // List ip addresses
-exec(HESTIA_CMD . "v-list-user-ips " . $user . " json", $output, $return_var);
+exec("v-list-user-ips " . $user . " json", $output, $return_var);
 $v_ips = json_decode(implode("", $output), true);
 unset($output);
 
@@ -55,7 +55,7 @@ if (!empty($_GET["domain"]) && empty($_GET["record_id"])) {
 	}
 
 	// List dns templates
-	exec(HESTIA_CMD . "v-list-dns-templates json", $output, $return_var);
+	exec("v-list-dns-templates json", $output, $return_var);
 	$templates = json_decode(implode("", $output), true);
 	unset($output);
 }
@@ -224,7 +224,7 @@ if (!empty($_POST["save"]) && !empty($_GET["domain"]) && empty($_GET["record_id"
 
 	// Restart dns server
 	if (!empty($restart_dns) && empty($_SESSION["error_msg"])) {
-		exec(HESTIA_CMD . "v-restart-dns", $output, $return_var);
+		exec("v-restart-dns", $output, $return_var);
 		check_return_code($return_var, $output);
 		unset($output);
 	}
@@ -235,7 +235,7 @@ if (!empty($_POST["save"]) && !empty($_GET["domain"]) && empty($_GET["record_id"
 	}
 	// Restart dns server
 	if (empty($_SESSION["error_msg"])) {
-		exec(HESTIA_CMD . "v-restart-dns", $output, $return_var);
+		exec("v-restart-dns", $output, $return_var);
 		check_return_code($return_var, $output);
 		unset($output);
 	}
@@ -315,7 +315,7 @@ if (!empty($_POST["save"]) && !empty($_GET["domain"]) && !empty($_GET["record_id
 
 	// Restart dns server
 	if (!empty($restart_dns) && empty($_SESSION["error_msg"])) {
-		exec(HESTIA_CMD . "v-restart-dns", $output, $return_var);
+		exec("v-restart-dns", $output, $return_var);
 		check_return_code($return_var, $output);
 		unset($output);
 	}

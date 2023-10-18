@@ -40,7 +40,7 @@ if (
 verify_csrf($_GET);
 
 // List user
-exec(HESTIA_CMD . "v-list-user " . quoteshellarg($v_username) . " json", $output, $return_var);
+exec("v-list-user " . quoteshellarg($v_username) . " json", $output, $return_var);
 check_return_code_redirect($return_var, $output, "/list/user/");
 
 $data = json_decode(implode("", $output), true);
@@ -119,12 +119,12 @@ if (empty($v_phpcli)) {
 }
 
 // List packages
-exec(HESTIA_CMD . "v-list-user-packages json", $output, $return_var);
+exec("v-list-user-packages json", $output, $return_var);
 $packages = json_decode(implode("", $output), true);
 unset($output);
 
 // List languages
-exec(HESTIA_CMD . "v-list-sys-languages json", $output, $return_var);
+exec("v-list-sys-languages json", $output, $return_var);
 $language = json_decode(implode("", $output), true);
 foreach ($language as $lang) {
 	$languages[$lang] = translate_json($lang);
@@ -133,18 +133,18 @@ asort($languages);
 unset($output);
 
 // List themes
-exec(HESTIA_CMD . "v-list-sys-themes json", $output, $return_var);
+exec("v-list-sys-themes json", $output, $return_var);
 $themes = json_decode(implode("", $output), true);
 unset($output);
 
 // List shells
-exec(HESTIA_CMD . "v-list-sys-shells json", $output, $return_var);
+exec("v-list-sys-shells json", $output, $return_var);
 $shells = json_decode(implode("", $output), true);
 unset($output);
 
 //List PHP Versions
 // List supported php versions
-exec(HESTIA_CMD . "v-list-sys-php json", $output, $return_var);
+exec("v-list-sys-php json", $output, $return_var);
 $php_versions = json_decode(implode("", $output), true);
 unset($output);
 
@@ -183,7 +183,7 @@ if (!empty($_POST["save"])) {
 
 	// Enable twofa
 	if (!empty($_POST["v_twofa"]) && empty($v_twofa) && empty($_SESSION["error_msg"])) {
-		exec(HESTIA_CMD . "v-add-user-2fa " . quoteshellarg($v_username), $output, $return_var);
+		exec("v-add-user-2fa " . quoteshellarg($v_username), $output, $return_var);
 		check_return_code($return_var, $output);
 		unset($output);
 
@@ -204,7 +204,7 @@ if (!empty($_POST["save"])) {
 
 	// Disable twofa
 	if (empty($_POST["v_twofa"]) && !empty($v_twofa) && empty($_SESSION["error_msg"])) {
-		exec(HESTIA_CMD . "v-delete-user-2fa " . quoteshellarg($v_username), $output, $return_var);
+		exec("v-delete-user-2fa " . quoteshellarg($v_username), $output, $return_var);
 		check_return_code($return_var, $output);
 		unset($output);
 		$v_twofa = "";

@@ -20,7 +20,7 @@ if (
 }
 
 // APIs available
-exec(HESTIA_CMD . "v-list-apis json", $output, $return_var);
+exec("v-list-apis json", $output, $return_var);
 $apis = json_decode(implode("", $output), true);
 $apis = array_filter($apis, function ($api) use ($user_plain) {
 	return $user_plain == "admin" || $api["ROLE"] == "user";

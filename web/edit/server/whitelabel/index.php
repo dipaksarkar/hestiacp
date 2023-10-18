@@ -79,15 +79,15 @@ if (!empty($_POST)) {
 		);
 	}
 	if (!empty($_POST["v_update_logo"])) {
-		exec(HESTIA_CMD . "v-update-white-label-logo");
+		exec("v-update-white-label-logo");
 	}
 	if (!empty($_POST["v_reset_logo"])) {
-		exec(HESTIA_CMD . "v-update-white-label-logo yes yes");
+		exec("v-update-white-label-logo yes yes");
 	}
 }
 
 // Check system configuration
-exec(HESTIA_CMD . "v-list-sys-config json", $output, $return_var);
+exec("v-list-sys-config json", $output, $return_var);
 $data = json_decode(implode("", $output), true);
 unset($output);
 

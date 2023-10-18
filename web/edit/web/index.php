@@ -21,7 +21,7 @@ if ($_SESSION["userContext"] === "admin" && !empty($_GET["user"])) {
 }
 
 // Get all user domains
-exec(HESTIA_CMD . "v-list-web-domains " . $user . " json", $output, $return_var);
+exec("v-list-web-domains " . $user . " json", $output, $return_var);
 $user_domains = json_decode(implode("", $output), true);
 $user_domains = array_keys($user_domains);
 unset($output);
@@ -152,33 +152,33 @@ $v_time = $data[$v_domain]["TIME"];
 $v_date = $data[$v_domain]["DATE"];
 
 // List ip addresses
-exec(HESTIA_CMD . "v-list-user-ips " . $user . " json", $output, $return_var);
+exec("v-list-user-ips " . $user . " json", $output, $return_var);
 $ips = json_decode(implode("", $output), true);
 unset($output);
 
 $v_ip_public = empty($ips[$v_ip]["NAT"]) ? $v_ip : $ips[$v_ip]["NAT"];
 
 // List web templates
-exec(HESTIA_CMD . "v-list-web-templates json", $output, $return_var);
+exec("v-list-web-templates json", $output, $return_var);
 $templates = json_decode(implode("", $output), true);
 unset($output);
 
 // List backend templates
 if (!empty($_SESSION["WEB_BACKEND"])) {
-	exec(HESTIA_CMD . "v-list-web-templates-backend json", $output, $return_var);
+	exec("v-list-web-templates-backend json", $output, $return_var);
 	$backend_templates = json_decode(implode("", $output), true);
 	unset($output);
 }
 
 // List proxy templates
 if (!empty($_SESSION["PROXY_SYSTEM"])) {
-	exec(HESTIA_CMD . "v-list-web-templates-proxy json", $output, $return_var);
+	exec("v-list-web-templates-proxy json", $output, $return_var);
 	$proxy_templates = json_decode(implode("", $output), true);
 	unset($output);
 }
 
 // List web stat engines
-exec(HESTIA_CMD . "v-list-web-stats json", $output, $return_var);
+exec("v-list-web-stats json", $output, $return_var);
 $stats = json_decode(implode("", $output), true);
 unset($output);
 
@@ -1596,7 +1596,7 @@ if (!empty($_POST["save"])) {
 	}
 	// Restart web server
 	if (!empty($restart_web) && empty($_SESSION["error_msg"])) {
-		exec(HESTIA_CMD . "v-restart-web", $output, $return_var);
+		exec("v-restart-web", $output, $return_var);
 		check_return_code($return_var, $output);
 		unset($output);
 	}
@@ -1607,14 +1607,14 @@ if (!empty($_POST["save"])) {
 		!empty($restart_proxy) &&
 		empty($_SESSION["error_msg"])
 	) {
-		exec(HESTIA_CMD . "v-restart-proxy", $output, $return_var);
+		exec("v-restart-proxy", $output, $return_var);
 		check_return_code($return_var, $output);
 		unset($output);
 	}
 
 	// Restart dns server
 	if (!empty($restart_dns) && empty($_SESSION["error_msg"])) {
-		exec(HESTIA_CMD . "v-restart-dns", $output, $return_var);
+		exec("v-restart-dns", $output, $return_var);
 		check_return_code($return_var, $output);
 		unset($output);
 	}

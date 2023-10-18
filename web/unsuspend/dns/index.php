@@ -11,7 +11,7 @@ verify_csrf($_GET);
 // DNS domain
 if (!empty($_GET["domain"]) && empty($_GET["record_id"])) {
 	$v_domain = quoteshellarg($_GET["domain"]);
-	exec(HESTIA_CMD . "v-unsuspend-dns-domain " . $user . " " . $v_domain, $output, $return_var);
+	exec("v-unsuspend-dns-domain " . $user . " " . $v_domain, $output, $return_var);
 	if ($return_var != 0) {
 		$error = implode("<br>", $output);
 		if (empty($error)) {

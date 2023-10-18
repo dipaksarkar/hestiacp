@@ -16,7 +16,7 @@ verify_csrf($_GET);
 if (!empty($_GET["domain"]) && empty($_GET["account"])) {
 	$v_username = quoteshellarg($user);
 	$v_domain = quoteshellarg($_GET["domain"]);
-	exec(HESTIA_CMD . "v-delete-mail-domain " . $user . " " . $v_domain, $output, $return_var);
+	exec("v-delete-mail-domain " . $user . " " . $v_domain, $output, $return_var);
 	check_return_code($return_var, $output);
 	unset($output);
 	$back = $_SESSION["back"];

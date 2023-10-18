@@ -24,7 +24,7 @@ if (isset($_SESSION["user"])) {
 		if (verify_csrf($_GET)) {
 			$v_user = quoteshellarg($_GET["loginas"]);
 			$v_impersonator = quoteshellarg($_SESSION["user"]);
-			exec(HESTIA_CMD . "v-list-user " . $v_user . " json", $output, $return_var);
+			exec("v-list-user " . $v_user . " json", $output, $return_var);
 			if ($return_var == 0) {
 				$data = json_decode(implode("", $output), true);
 				reset($data);
@@ -77,7 +77,7 @@ if (isset($_SESSION["user"])) {
 			],
 		);
 
-		exec(HESTIA_CMD . "v-list-user " . $v_user . " json", $output, $return_var);
+		exec("v-list-user " . $v_user . " json", $output, $return_var);
 		$data = json_decode(implode("", $output), true);
 		unset($output);
 
@@ -124,12 +124,8 @@ function authenticate_user($user, $password, $twofa = "") {
 		$v_user_agent = quoteshellarg($user_agent);
 
 		// Get user's salt
-		$output = "";
-		exec(
-			HESTIA_CMD . "v-get-user-salt " . $v_user . " " . $v_ip . " json",
-			$output,
-			$return_var,
-		);
+		$output = [];
+		exec("v-get-user-salt " . $v_user . " " . $v_ip . " json", $output, $return_var);
 		$pam = json_decode(implode("", $output), true);
 		unset($output);
 		if ($return_var > 0) {
@@ -185,7 +181,7 @@ function authenticate_user($user, $password, $twofa = "") {
 
 			// Check user hash
 			exec(
-				HESTIA_CMD . "v-check-user-hash " . $v_user . " " . $v_hash . " " . $v_ip,
+				"v-check-user-hash " . $v_user . " " . $v_hash . " " . $v_ip,
 				$output,
 				$return_var,
 			);
@@ -214,7 +210,7 @@ function authenticate_user($user, $password, $twofa = "") {
 				return $error;
 			} else {
 				// Get user specific parameters
-				exec(HESTIA_CMD . "v-list-user " . $v_user . " json", $output, $return_var);
+				exec("v-list-user " . $v_user . " json", $output, $return_var);
 				$data = json_decode(implode("", $output), true);
 				unset($output);
 				if ($data[$user]["LOGIN_DISABLED"] === "yes") {
@@ -264,11 +260,7 @@ function authenticate_user($user, $password, $twofa = "") {
 				}
 
 				if ($data[$user]["TWOFA"] != "") {
-					exec(
-						HESTIA_CMD . "v-check-user-2fa " . $v_user . " " . $v_twofa,
-						$output,
-						$return_var,
-					);
+					exec("v-check-user-2fa " . $v_user . " " . $v_twofa, $output, $return_var);
 					$error = _("Invalid or missing 2FA token");
 					if (empty($twofa)) {
 						$_SESSION["login"]["username"] = $user;
@@ -276,11 +268,7 @@ function authenticate_user($user, $password, $twofa = "") {
 						return false;
 					} else {
 						$v_twofa = quoteshellarg($twofa);
-						exec(
-							HESTIA_CMD . "v-check-user-2fa " . $v_user . " " . $v_twofa,
-							$output,
-							$return_var,
-						);
+						exec("v-check-user-2fa " . $v_user . " " . $v_twofa, $output, $return_var);
 						unset($output);
 						if ($return_var > 0) {
 							sleep(2);
@@ -351,8 +339,8 @@ function authenticate_user($user, $password, $twofa = "") {
 					: "name";
 
 				// Define language
-				$output = "";
-				exec(HESTIA_CMD . "v-list-sys-languages json", $output, $return_var);
+				$output = [];
+				exec("v-list-sys-languages json", $output, $return_var);
 				$languages = json_decode(implode("", $output), true);
 				$_SESSION["language"] = in_array($data[$v_user]["LANGUAGE"], $languages)
 					? $data[$user]["LANGUAGE"]
@@ -431,13 +419,13 @@ load_hestia_config();
 
 // Detect language
 if (empty($_SESSION["language"])) {
-	$output = "";
-	exec(HESTIA_CMD . "v-list-sys-config json", $output, $return_var);
+	$output = [];
+	exec("v-list-sys-config json", $output, $return_var);
 	$config = json_decode(implode("", $output), true);
 	$lang = $config["config"]["LANGUAGE"];
 
-	$output = "";
-	exec(HESTIA_CMD . "v-list-sys-languages json", $output, $return_var);
+	$output = [];
+	exec("v-list-sys-languages json", $output, $return_var);
 	$languages = json_decode(implode("", $output), true);
 	$_SESSION["language"] = in_array($lang, $languages) ? $lang : "en";
 }
