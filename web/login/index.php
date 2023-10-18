@@ -31,9 +31,7 @@ if (isset($_SESSION["user"])) {
 				$_SESSION["look"] = key($data);
 				// Log impersonation events
 				exec(
-					"v-log-action " .
-						$v_impersonator .
-						" 'Info' 'Security' 'Logged in as another user (User: $v_user)'",
+					"v-log-action $v_impersonator 'Info' 'Security' 'Logged in as another user (User: $v_user)'",
 					$output,
 					$return_var,
 				);
@@ -123,9 +121,11 @@ function authenticate_user($user, $password, $twofa = "") {
 
 		// Get user's salt
 		$output = [];
-		exec("v-get-user-salt " . $v_user . " " . $v_ip . " json", $output, $return_var);
+
+		exec("v-get-user-salt $v_user $v_ip json", $output, $return_var);
 		$pam = json_decode(implode("", $output), true);
 		unset($output);
+
 		if ($return_var > 0) {
 			sleep(2);
 			if ($return_var == 5) {
@@ -142,31 +142,19 @@ function authenticate_user($user, $password, $twofa = "") {
 
 			if ($method == "md5") {
 				$hash = crypt($password, '$1$' . $salt . '$');
-			}
-			if ($method == "sha-512") {
+			} elseif ($method == "sha-512") {
 				$hash = crypt($password, '$6$rounds=5000$' . $salt . '$');
 				$hash = str_replace('$rounds=5000', "", $hash);
-			}
-			if ($method == "yescrypt") {
+			} elseif ($method == "yescrypt") {
 				$fp = tmpfile();
 				$v_password = stream_get_meta_data($fp)["uri"];
 				fwrite($fp, $password . "\n");
-				exec(
-					"v-check-user-password " .
-						$v_user .
-						" " .
-						quoteshellarg($v_password) .
-						" " .
-						$v_ip .
-						" yes",
-					$output,
-					$return_var,
-				);
+				$q_password = quoteshellarg($v_password);
+				exec("v-check-user-password $v_user $q_password $v_ip yes", $output, $return_var);
 				$hash = $output[0];
 				fclose($fp);
 				unset($output, $fp, $v_password);
-			}
-			if ($method == "des") {
+			} elseif ($method == "des") {
 				$hash = crypt($password, $salt);
 			}
 
@@ -177,11 +165,8 @@ function authenticate_user($user, $password, $twofa = "") {
 			fclose($fp);
 
 			// Check user hash
-			exec(
-				"v-check-user-hash " . $v_user . " " . $v_hash . " " . $v_ip,
-				$output,
-				$return_var,
-			);
+			exec("v-check-user-hash $v_user $v_hash $v_ip", $output, $return_var);
+
 			unset($output);
 
 			// Remove tmp file
@@ -192,37 +177,25 @@ function authenticate_user($user, $password, $twofa = "") {
 				$error = _("Invalid username or password");
 				$v_session_id = quoteshellarg($_POST["token"]);
 				exec(
-					"v-log-user-login " .
-						$v_user .
-						" " .
-						$v_ip .
-						" failed " .
-						$v_session_id .
-						" " .
-						$v_user_agent,
+					"v-log-user-login $v_user $v_ip failed $v_session_id $v_user_agent",
 					$output,
 					$return_var,
 				);
 				return $error;
 			} else {
 				// Get user specific parameters
-				exec("v-list-user " . $v_user . " json", $output, $return_var);
+				$output = [];
+				exec("v-list-user $v_user json", $output, $return_var);
+
 				$data = json_decode(implode("", $output), true);
 				unset($output);
+
 				if ($data[$user]["LOGIN_DISABLED"] === "yes") {
 					sleep(2);
 					$error = _("Invalid username or password");
 					$v_session_id = quoteshellarg($_POST["token"]);
 					exec(
-						"v-log-user-login " .
-							$v_user .
-							" " .
-							$v_ip .
-							" failed " .
-							$v_session_id .
-							" " .
-							$v_user_agent .
-							' yes "Login disabled for this user"',
+						"v-log-user-login $v_user $v_ip failed $v_session_id $v_user_agent yes 'Login disabled for this user'",
 						$output,
 						$return_var,
 					);
@@ -237,15 +210,7 @@ function authenticate_user($user, $password, $twofa = "") {
 						$error = _("Invalid username or password");
 						$v_session_id = quoteshellarg($_POST["token"]);
 						exec(
-							"v-log-user-login " .
-								$v_user .
-								" " .
-								$v_ip .
-								" failed " .
-								$v_session_id .
-								" " .
-								$v_user_agent .
-								' yes "IP address not in allowed list"',
+							"v-log-user-login $v_user $v_ip failed $v_session_id $v_user_agent yes 'IP address not in allowed list'",
 							$output,
 							$return_var,
 						);
@@ -254,7 +219,7 @@ function authenticate_user($user, $password, $twofa = "") {
 				}
 
 				if ($data[$user]["TWOFA"] != "") {
-					exec("v-check-user-2fa " . $v_user . " " . $v_twofa, $output, $return_var);
+					exec("v-check-user-2fa $v_user", $output, $return_var);
 					$error = _("Invalid or missing 2FA token");
 					if (empty($twofa)) {
 						$_SESSION["login"]["username"] = $user;
@@ -262,7 +227,7 @@ function authenticate_user($user, $password, $twofa = "") {
 						return false;
 					} else {
 						$v_twofa = quoteshellarg($twofa);
-						exec("v-check-user-2fa " . $v_user . " " . $v_twofa, $output, $return_var);
+						exec("v-check-user-2fa $v_user $v_twofa", $output, $return_var);
 						unset($output);
 						if ($return_var > 0) {
 							sleep(2);
@@ -274,15 +239,7 @@ function authenticate_user($user, $password, $twofa = "") {
 								//allow a few failed attemps before start of logging.
 								if ($_SESSION["failed_twofa"] > 2) {
 									exec(
-										"v-log-user-login " .
-											$v_user .
-											" " .
-											$v_ip .
-											" failed " .
-											$v_session_id .
-											" " .
-											$v_user_agent .
-											' yes "Invalid or missing 2FA token"',
+										"v-log-user-login $v_user $v_ip failed $v_session_id $v_user_agent yes 'Invalid or missing 2FA token'",
 										$output,
 										$return_var,
 									);
@@ -300,17 +257,11 @@ function authenticate_user($user, $password, $twofa = "") {
 				// Define session user
 				$_SESSION["user"] = key($data);
 				$v_user = $_SESSION["user"];
+
 				//log successfull login attempt
 				$v_session_id = quoteshellarg($_POST["token"]);
 				exec(
-					"v-log-user-login " .
-						$v_user .
-						" " .
-						$v_ip .
-						" success " .
-						$v_session_id .
-						" " .
-						$v_user_agent,
+					"v-log-user-login $v_user $v_ip success $v_session_id $v_user_agent",
 					$output,
 					$return_var,
 				);

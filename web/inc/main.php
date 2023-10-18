@@ -1,4 +1,7 @@
 <?php
+// error_reporting(E_ALL);
+// ini_set('display_errors', 'On');
+
 session_start();
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -17,7 +20,7 @@ try {
 	exit(1);
 }
 
-define("HESTIA_DIR_BIN", "/usr/local/hestia/bin/");
+define("HESTIA_DIR_BIN", "/usr/local/hestia/bin");
 define("HESTIA_CMD", "/usr/bin/sudo /usr/local/hestia/bin/");
 define("DEFAULT_PHP_VERSION", "php-" . exec('php -r "echo substr(phpversion(),0,3);"'));
 
