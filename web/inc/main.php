@@ -543,7 +543,6 @@ function load_hestia_config() {
 	foreach ($sys_arr as $key => $value) {
 		$_SESSION[$key] = $value;
 	}
-	var_dump($_SESSION);
 }
 
 /**
